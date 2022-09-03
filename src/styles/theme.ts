@@ -22,6 +22,15 @@ export const THEME = extendTheme({
       200: '#C4C4CC',
       100: '#E1E1E6'
     },
+    yellow: {
+      700: '#a16207',
+      600: '#ca8a04',
+      500: '#eab308',
+      400: '#facc15',
+      300: '#fde047',
+      200: '#fef08a',
+      100: '#fef9c3'
+    },
     white: '#FFFFFF'
   },
   fonts: {
