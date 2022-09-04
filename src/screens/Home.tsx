@@ -57,9 +57,9 @@ export function Home() {
         pb={5}
         px={6}
       >
-        <Logo />
+        <Logo width={150} height={70} />
 
-        <IconButton icon={<SignOut size={26} color={colors.gray[300]} />} />
+        <IconButton icon={<SignOut size={26} color={colors.gray[100]} />} />
       </HStack>
 
       <VStack flex={1} px={6}>
@@ -70,7 +70,7 @@ export function Home() {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Heading color="gray.100">Meus chamados</Heading>
+          <Heading color="gray.400">Meus chamados</Heading>
           <Text color="gray.200">3</Text>
         </HStack>
         <HStack space={3} mb={8}>
