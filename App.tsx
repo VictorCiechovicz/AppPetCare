@@ -7,7 +7,7 @@ import {
 
 import { THEME } from './src/styles/theme'
 
-import { SignIn } from './src/screens/SignIn'
+import { Routes } from './src/routes'
 import { Loading } from './src/components/Loading'
 
 import { Register } from './src/screens/Register'
@@ -21,7 +21,7 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <Register /> : <Loading />}
+      {fontsLoaded ? <Routes /> : <Loading />}
     </NativeBaseProvider>
   )
 }
