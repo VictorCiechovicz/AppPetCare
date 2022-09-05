@@ -22,6 +22,8 @@ export function Header({ title, ...rest }) {
       bg="yellow.600"
       pb={6}
       pt={12}
+      mt={5}
+      mb={3}
       {...rest}
     >
       <IconButton
