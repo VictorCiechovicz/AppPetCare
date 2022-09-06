@@ -1,4 +1,4 @@
-package com.petcare.newarchitecture.modules;
+package com.victorciechovicz.PetCare.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

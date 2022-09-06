@@ -1,4 +1,4 @@
-package com.petcare;
+package com.victorciechovicz.PetCare;
 
 import android.os.Build;
 import android.os.Bundle;

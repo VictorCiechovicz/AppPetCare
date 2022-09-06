@@ -1,4 +1,4 @@
-package com.petcare.newarchitecture;
+package com.victorciechovicz.PetCare.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -20,9 +20,9 @@ import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.petcare.BuildConfig;
-import com.petcare.newarchitecture.components.MainComponentsRegistry;
-import com.petcare.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.victorciechovicz.PetCare.BuildConfig;
+import com.victorciechovicz.PetCare.newarchitecture.components.MainComponentsRegistry;
+import com.victorciechovicz.PetCare.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

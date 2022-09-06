@@ -23,15 +23,7 @@ export function Home() {
     'open'
   )
 
-  const [orders, serOrders] = useState<OrderProps[]>([
-    {
-      id: '123',
-      patrimony: '25425',
-      when: '03/09/2022 as 14:00',
-      status: 'open'
-    },
-   
-  ])
+  const [orders, serOrders] = useState<OrderProps[]>([])
 
   const { colors } = useTheme()
 
@@ -41,8 +33,8 @@ export function Home() {
     navigation.navigate('new')
   }
 
-  function handleOpenDetails(orderId:string){
-    navigation.navigate('details',{orderId})
+  function handleOpenDetails(orderId: string) {
+    navigation.navigate('details', { orderId })
   }
 
   return (
@@ -70,10 +62,7 @@ export function Home() {
           alignItems="center"
         >
           <Heading color="gray.400">Solicitacoes</Heading>
-          <Text color="gray.200">
-
-            {orders.length}
-          </Text>
+          <Text color="gray.200">{orders.length}</Text>
         </HStack>
         <HStack space={3} mb={8}>
           <Filter
@@ -93,7 +82,9 @@ export function Home() {
         <FlatList
           data={orders}
           keyExtractor={item => item.id}
-          renderItem={({ item }) => <Order data={item} onPress={()=> handleOpenDetails(item.id)} />}
+          renderItem={({ item }) => (
+            <Order data={item} onPress={() => handleOpenDetails(item.id)} />
+          )}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 100 }}
           ListEmptyComponent={() => (

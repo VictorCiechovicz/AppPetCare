@@ -1,4 +1,4 @@
-package com.petcare.newarchitecture.components;
+package com.victorciechovicz.PetCare.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;
