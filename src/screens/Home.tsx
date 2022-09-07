@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Alert } from 'react-native'
 import auth from '@react-native-firebase/auth'
+import firestore from '@react-native-firebase/firestore'
 import { useNavigation } from '@react-navigation/native'
 import {
   HStack,
@@ -14,13 +15,16 @@ import {
 } from 'native-base'
 import { SignOut, ChatTeardropText } from 'phosphor-react-native'
 
-import Logo from '../../assets/logo_secondary.svg'
+import { dateFormat } from '../utils/firestoreDateFormat'
 
+import Logo from '../../assets/logo_secondary.svg'
+import { Loading } from '../components/Loading'
 import { Filter } from '../components/Filter'
 import { Button } from '../components/Button'
 import { Order, OrderProps } from '../components/Order'
 
 export function Home() {
+  const [isLoading, setIsLoading] = useState(true)
   const [statusSelected, setStatusSelected] = useState<'open' | 'closed'>(
     'open'
   )
@@ -39,15 +43,38 @@ export function Home() {
     navigation.navigate('details', { orderId })
   }
 
-  function handleLogout(){
+  function handleLogout() {
     auth()
-    .signOut()
-    .catch(error=>{
-      console.log(error)
-      return Alert.alert('Sair','Não foi possível sair.')
-    })
+      .signOut()
+      .catch(error => {
+        console.log(error)
+        return Alert.alert('Sair', 'Não foi possível sair.')
+      })
   }
 
+  useEffect(() => {
+    setIsLoading(true)
+
+    const subscribe = firestore()
+      .collection('orders')
+      .where('status', '==', statusSelected)
+      .onSnapshot(snapshot => {
+        const data = snapshot.docs.map(doc => {
+          const { patrimony, description, status, created_at } = doc.data()
+
+          return {
+            id: doc.id,
+            patrimony,
+            description,
+            status,
+            when: dateFormat(created_at)
+          }
+        })
+        setOrders(data)
+        setIsLoading(false)
+      })
+    return subscribe
+  }, [])
   return (
     <VStack flex={1} pb={6} bg="yellow.100">
       <HStack
@@ -61,8 +88,9 @@ export function Home() {
       >
         <Logo width={150} height={70} />
 
-        <IconButton icon={<SignOut size={26} color={colors.gray[100]} />}
-        onPress={handleLogout}
+        <IconButton
+          icon={<SignOut size={26} color={colors.gray[100]} />}
+          onPress={handleLogout}
         />
       </HStack>
 
@@ -91,26 +119,29 @@ export function Home() {
             isActive={statusSelected === 'closed'}
           />
         </HStack>
-
-        <FlatList
-          data={orders}
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => (
-            <Order data={item} onPress={() => handleOpenDetails(item.id)} />
-          )}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 100 }}
-          ListEmptyComponent={() => (
-            <Circle>
-              <ChatTeardropText color={colors.gray[300]} size={40} />
-              <Text color="gray.300" fontSize="xl" mt={6} textAlign="center">
-                Voce ainda nao possui {'\n'}
-                solicitacoes{' '}
-                {statusSelected === 'open' ? 'em andamento' : 'finalizadas'}
-              </Text>
-            </Circle>
-          )}
-        />
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <FlatList
+            data={orders}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
+              <Order data={item} onPress={() => handleOpenDetails(item.id)} />
+            )}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 100 }}
+            ListEmptyComponent={() => (
+              <Circle>
+                <ChatTeardropText color={colors.gray[300]} size={40} />
+                <Text color="gray.300" fontSize="xl" mt={6} textAlign="center">
+                  Voce ainda nao possui {'\n'}
+                  solicitacoes{' '}
+                  {statusSelected === 'open' ? 'em andamento' : 'finalizadas'}
+                </Text>
+              </Circle>
+            )}
+          />
+        )}
 
         <Button title="Nova solicitacao" onPress={handleNewOrder} />
       </VStack>

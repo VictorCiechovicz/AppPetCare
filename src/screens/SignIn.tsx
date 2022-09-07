@@ -25,6 +25,7 @@ export function SignIn() {
     auth()
       .signInWithEmailAndPassword(email, password)
       .catch(error => {
+        console.log(error)
         setIsLoading(false)
 
         if (error.code === 'auth/invalid-email') {
