@@ -21,22 +21,22 @@ import { SignOut, ChatTeardropText } from 'phosphor-react-native'
 import { Loading } from '../components/Loading'
 import { Filter } from '../components/Filter'
 import { Button } from '../components/Button'
-import { Order, OrderProps } from '../components/Order'
+import { Pets, PetsProps } from '../components/Order'
 import Logo from '../../assets/logo_secondary.svg'
 
 export function Home() {
   const [isLoading, setIsLoading] = useState(true)
-  const [statusSelected, setStatusSelected] = useState<'open' | 'closed'>(
-    'open'
-  )
+  const [statusSelected, setStatusSelected] = useState<
+    'adotado' | 'naoadotado'
+  >('naoadotado')
 
-  const [orders, setOrders] = useState<OrderProps[]>([])
+  const [pets, setPets] = useState<PetsProps[]>([])
 
   const { colors } = useTheme()
 
   const navigation = useNavigation()
 
-  function handleNewOrder() {
+  function handleNewPet() {
     navigation.navigate('new')
   }
 
@@ -57,21 +57,21 @@ export function Home() {
     setIsLoading(true)
 
     const subscribe = firestore()
-      .collection('orders')
+      .collection('pets')
       .where('status', '==', statusSelected)
       .onSnapshot(snapshot => {
         const data = snapshot.docs.map(doc => {
-          const { patrimony, description, status, created_at } = doc.data()
+          const { nome, descricao, status, created_at } = doc.data()
 
           return {
             id: doc.id,
-            patrimony,
-            description,
+            nome,
+            descricao,
             status,
             when: dateFormat(created_at)
           }
         })
-        setOrders(data)
+        setPets(data)
         setIsLoading(false)
       })
     return subscribe
@@ -105,26 +105,26 @@ export function Home() {
         ></HStack>
         <HStack space={3} mb={8}>
           <Filter
-            type="closed"
-            title="Cachorros"
-            onPress={() => setStatusSelected('open')}
-            isActive={statusSelected === 'open'}
+            type="naoadotado"
+            title="Nao adotados"
+            onPress={() => setStatusSelected('naoadotado')}
+            isActive={statusSelected === 'naoadotado'}
           />
           <Filter
-            type="open"
-            title="gatos"
-            onPress={() => setStatusSelected('closed')}
-            isActive={statusSelected === 'closed'}
+            type="adotado"
+            title="adotados"
+            onPress={() => setStatusSelected('adotado')}
+            isActive={statusSelected === 'adotado'}
           />
         </HStack>
         {isLoading ? (
           <Loading />
         ) : (
           <FlatList
-            data={orders}
+            data={pets}
             keyExtractor={item => item.id}
             renderItem={({ item }) => (
-              <Order data={item} onPress={() => handleOpenDetails(item.id)} />
+              <Pets data={item} onPress={() => handleOpenDetails(item.id)} />
             )}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 100 }}
@@ -132,16 +132,14 @@ export function Home() {
               <Circle>
                 <ChatTeardropText color={colors.gray[300]} size={40} />
                 <Text color="gray.300" fontSize="xl" mt={6} textAlign="center">
-                  Voce ainda nao possui {'\n'}
-                  solicitacoes{' '}
-                  {statusSelected === 'open' ? 'em andamento' : 'finalizadas'}
+                  Nao possui nenhum animal cadastrado {'\n'}
                 </Text>
               </Circle>
             )}
           />
         )}
 
-        <Button title="Cadastrar animal" onPress={handleNewOrder} />
+        <Button title="Cadastrar animal" onPress={handleNewPet} />
       </VStack>
     </VStack>
   )

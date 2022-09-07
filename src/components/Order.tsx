@@ -5,21 +5,21 @@ import {
   CircleWavyCheck
 } from 'phosphor-react-native'
 
-export type OrderProps = {
+export type PetsProps = {
   id: string
-  patrimony: string
+  nome: string
   when: string
-  status: 'open' | 'closed'
+  status: 'adotado' | 'naoadotado'
 }
 
 type Props = IPressableProps &{
-  data: OrderProps
+  data: PetsProps
 }
 
-export function Order({ data, ...rest }: Props) {
+export function Pets({ data, ...rest }: Props) {
   const { colors } = useTheme()
   const statusColor =
-    data.status === 'open' ? colors.secondary[700] : colors.green[300]
+    data.status === 'naoadotado' ? colors.secondary[700] : colors.green[300]
   return (
     <Pressable {...rest}>
     <HStack
@@ -34,7 +34,7 @@ export function Order({ data, ...rest }: Props) {
       <VStack flex={1} my={5} ml={5}>
         
         <Text color="white" fontSize="md">
-         Nome animal: {data.patrimony}
+         Nome animal: {data.nome}
         </Text>
 
         <HStack alignItems="center">
@@ -46,7 +46,7 @@ export function Order({ data, ...rest }: Props) {
       </VStack>
 
       <Circle bg="gray.500" h={12} w={12} mr={5}>
-        {data.status === 'closed' ? (
+        {data.status === 'adotado' ? (
           <CircleWavyCheck size={24} color={statusColor} />
         ) : (
           <Hourglass size={24} color={statusColor} />

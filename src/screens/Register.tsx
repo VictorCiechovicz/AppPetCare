@@ -9,55 +9,62 @@ import { Button } from '../components/Button'
 
 export function Register() {
   const [isLoading, setIsLoading] = useState(false)
-  const [patrimony, setPatrimony] = useState('')
-  const [description, setDescription] = useState('')
+  const [nome, setNome] = useState('')
+  const [descricao, setDescricao] = useState('')
+  const [raca, setRaca] = useState('')
+  const [idade, setIdade] = useState('')
 
   const navigation = useNavigation()
 
-  function headleNewOrderRegister() {
-    if (!patrimony || !description) {
+  function headleNewPetRegister() {
+    if (!nome || !descricao) {
       return Alert.alert('Registrar', 'Preencha todos os campos!')
     }
     setIsLoading(true)
     firestore()
-      .collection('orders')
+      .collection('pets')
       .add({
-        patrimony,
-        description,
+        nome,
+        raca,
+        idade,
         status: 'open',
+        descricao,
         created_at: firestore.FieldValue.serverTimestamp()
       })
       .then(() => {
-        Alert.alert('Solicitacao', 'Solicitacao registrada com sucesso!')
+        Alert.alert('Cadastro', 'Animal cadastrado com sucesso!')
         navigation.goBack()
       })
       .catch(error => {
         console.log(error)
         setIsLoading(false)
-        return Alert.alert('Solicitacao', 'Nao foi possivel registrar.')
+        return Alert.alert('Cadastro', 'Nao foi possivel cadastrar!')
       })
   }
   return (
     <VStack flex={1} p={6} bg="primary.700">
       <Header title="cadastro" textDecoration="uppercase" />
 
-      <Input placeholder="Numero do patrimonio" onChangeText={setPatrimony} />
-      <Input placeholder="Raca" mt={1} />
-      <Input placeholder="Idade" mt={1} />
-      <Input placeholder="Imagem do animal" mt={1} />
+      <Input
+        placeholder="Nome do animal"
+        onChangeText={setNome}
+      />
+      <Input placeholder="Raca" mt={1} onChangeText={setRaca} />
+      <Input placeholder="Idade" mt={1} onChangeText={setIdade} />
+      <Input placeholder="Imagem do animal" mt={1} onChangeText={setNome} />
       <Input
         placeholder="Descricao do animal"
         flex={1}
         mt={1}
         multiline
         textAlignVertical="top"
-        onChangeText={setDescription}
+        onChangeText={setDescricao}
       />
 
       <Button
         title="Cadastrar"
         mt={5}
-        onPress={headleNewOrderRegister}
+        onPress={headleNewPetRegister}
         isLoading={isLoading}
       />
     </VStack>

@@ -1,10 +1,10 @@
 import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 
-export type OrderFirestoreDTO={
-  patrimony:string;
-  description:string;
-  status:'open'|'closed';
-  solution?: string;
+export type PetsFirestoreDTO={
+  nome:string;
+  descricao:string;
+  status:'naoadotado'|'adotado';
+  adotar?: string;
   created_at: FirebaseFirestoreTypes.Timestamp;
   closed_at?: FirebaseFirestoreTypes.Timestamp;
 
