@@ -23,17 +23,12 @@ export function NewUser() {
       return Alert.alert('Entrar', 'Informe E-mail e Senha.')
     }
     setIsLoading(true)
-
     auth()
       .createUserWithEmailAndPassword(email, password)
-      .then((userCredencial)=>{
-        let user=userCredencial.user
+      .then(() => {
+        Alert.alert('Cadastro', 'Usuario cadastrado com sucesso!')
         navigation.goBack()
       })
-
-
-
-
       .catch(error => {
         console.log(error)
         setIsLoading(false)
@@ -42,20 +37,9 @@ export function NewUser() {
           return Alert.alert('Entrar', 'E-mail inválido.')
         }
 
-        if (error.code === 'auth/wrong-password') {
-          return Alert.alert('Entrar', 'E-mail ou Senha inválida.')
-        }
-
-        if (error.code === 'auth/user-not-found') {
-          return Alert.alert('Entrar', 'E-mail ou Senha inválida.')
-        }
-
         return Alert.alert('Entrar', 'Não foi possível acessar')
       })
-      .then(() => {
-        Alert.alert('Cadastro', 'Usuario cadastrado com sucesso!')
-        navigation.goBack()
-      })
+      .finally(() => setIsLoading(false))
   }
   return (
     <VStack flex={1} alignItems="center" bg="yellow.100" px={8} pt={24}>

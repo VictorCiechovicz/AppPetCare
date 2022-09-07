@@ -38,14 +38,17 @@ export function Register() {
       })
   }
   return (
-    <VStack flex={1} p={6} bg="yellow.100">
-      <Header title="Nova Solicitacao" />
+    <VStack flex={1} p={6} bg="primary.700">
+      <Header title="cadastro" textDecoration="uppercase" />
 
       <Input placeholder="Numero do patrimonio" onChangeText={setPatrimony} />
+      <Input placeholder="Raca" mt={1} />
+      <Input placeholder="Idade" mt={1} />
+      <Input placeholder="Imagem do animal" mt={1} />
       <Input
-        placeholder="Descricao do problema"
+        placeholder="Descricao do animal"
         flex={1}
-        mt={5}
+        mt={1}
         multiline
         textAlignVertical="top"
         onChangeText={setDescription}

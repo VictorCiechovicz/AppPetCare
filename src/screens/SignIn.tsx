@@ -23,7 +23,27 @@ export function SignIn() {
   const navigation = useNavigation()
 
   function handleNewUser() {
- 
+    if (!email || !password) {
+      return Alert.alert('Entrar', 'Informe E-mail e Senha.')
+    }
+    setIsLoading(true)
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        Alert.alert('Cadastro', 'Usuario cadastrado com sucesso!')
+        
+      })
+      .catch(error => {
+        console.log(error)
+        setIsLoading(false)
+
+        if (error.code === 'auth/invalid-email') {
+          return Alert.alert('Entrar', 'E-mail inválido.')
+        }
+
+        return Alert.alert('Entrar', 'Não foi possível acessar')
+      })
+      .finally(() => setIsLoading(false))
   }
 
   function handleSignIn() {
@@ -80,15 +100,20 @@ export function SignIn() {
       />
       <Text mb={5} color={colors.gray[300]}>
         You don`t register?
-        <Link onPress={handleNewUser} textDecoration="none">
-          Register now.
-        </Link>
+        <Link>Register now.</Link>
       </Text>
       <Button
         title="Entrar"
         w="full"
-        mb={1}
+        mb={5}
         onPress={handleSignIn}
+        isLoading={isLoading}
+      />
+      <Button
+        title="regitre"
+        w="full"
+        mb={1}
+        onPress={handleNewUser}
         isLoading={isLoading}
       />
     </VStack>

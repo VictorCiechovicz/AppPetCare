@@ -19,7 +19,7 @@ export function Header({ title, ...rest }) {
       w="full"
       justifyContent="space-between"
       alignItems="center"
-      bg="yellow.600"
+      bg="primary.700"
       pb={6}
       pt={12}
       mt={5}
@@ -34,6 +34,7 @@ export function Header({ title, ...rest }) {
       <Heading
         color="gray.100"
         textAlign="center"
+        textTransform="uppercase"
         fontSize="lg"
         flex={1}
         ml={-6}

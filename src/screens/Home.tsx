@@ -11,7 +11,6 @@ import {
   Circle
 } from 'native-base'
 
-
 import { dateFormat } from '../utils/firestoreDateFormat'
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
@@ -19,15 +18,11 @@ import { useNavigation } from '@react-navigation/native'
 
 import { SignOut, ChatTeardropText } from 'phosphor-react-native'
 
-
-
-
 import { Loading } from '../components/Loading'
 import { Filter } from '../components/Filter'
 import { Button } from '../components/Button'
 import { Order, OrderProps } from '../components/Order'
 import Logo from '../../assets/logo_secondary.svg'
-
 
 export function Home() {
   const [isLoading, setIsLoading] = useState(true)
@@ -107,20 +102,17 @@ export function Home() {
           mb={4}
           justifyContent="space-between"
           alignItems="center"
-        >
-          <Heading color="gray.400">Solicitacoes</Heading>
-          <Text color="gray.200">{orders.length}</Text>
-        </HStack>
+        ></HStack>
         <HStack space={3} mb={8}>
           <Filter
             type="closed"
-            title="em andamento"
+            title="Cachorros"
             onPress={() => setStatusSelected('open')}
             isActive={statusSelected === 'open'}
           />
           <Filter
             type="open"
-            title="finalizados"
+            title="gatos"
             onPress={() => setStatusSelected('closed')}
             isActive={statusSelected === 'closed'}
           />
@@ -149,7 +141,7 @@ export function Home() {
           />
         )}
 
-        <Button title="Nova solicitacao" onPress={handleNewOrder} />
+        <Button title="Cadastrar animal" onPress={handleNewOrder} />
       </VStack>
     </VStack>
   )
