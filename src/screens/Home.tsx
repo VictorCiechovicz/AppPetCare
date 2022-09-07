@@ -25,7 +25,7 @@ export function Home() {
     'open'
   )
 
-  const [orders, serOrders] = useState<OrderProps[]>([])
+  const [orders, setOrders] = useState<OrderProps[]>([])
 
   const { colors } = useTheme()
 
