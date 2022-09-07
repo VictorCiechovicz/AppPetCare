@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react'
 import { Alert } from 'react-native'
-import auth from '@react-native-firebase/auth'
-import firestore from '@react-native-firebase/firestore'
-import { useNavigation } from '@react-navigation/native'
 import {
   HStack,
   IconButton,
@@ -13,15 +10,24 @@ import {
   FlatList,
   Circle
 } from 'native-base'
-import { SignOut, ChatTeardropText } from 'phosphor-react-native'
+
 
 import { dateFormat } from '../utils/firestoreDateFormat'
+import auth from '@react-native-firebase/auth'
+import firestore from '@react-native-firebase/firestore'
+import { useNavigation } from '@react-navigation/native'
 
-import Logo from '../../assets/logo_secondary.svg'
+import { SignOut, ChatTeardropText } from 'phosphor-react-native'
+
+
+
+
 import { Loading } from '../components/Loading'
 import { Filter } from '../components/Filter'
 import { Button } from '../components/Button'
 import { Order, OrderProps } from '../components/Order'
+import Logo from '../../assets/logo_secondary.svg'
+
 
 export function Home() {
   const [isLoading, setIsLoading] = useState(true)

@@ -1,39 +1,39 @@
 import { useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { VStack, Heading, Icon, useTheme } from 'native-base'
 import { Envelope, Key } from 'phosphor-react-native'
-import { Alert } from 'react-native'
-
-import { VStack, Heading, Icon, useTheme, Text, Link } from 'native-base'
-
 import auth from '@react-native-firebase/auth'
+import { Alert } from 'react-native'
 
 import Logo from '../../assets/logo_primary.svg'
 
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
-import { NewUser } from '../screens/NewUser'
+import { useNavigation } from '@react-navigation/native'
 
-export function SignIn() {
+export function NewUser() {
   const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const { colors } = useTheme()
-
   const navigation = useNavigation()
 
   function handleNewUser() {
- 
-  }
-
-  function handleSignIn() {
     if (!email || !password) {
       return Alert.alert('Entrar', 'Informe E-mail e Senha.')
     }
     setIsLoading(true)
 
     auth()
-      .signInWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredencial)=>{
+        let user=userCredencial.user
+        navigation.goBack()
+      })
+
+
+
+
       .catch(error => {
         console.log(error)
         setIsLoading(false)
@@ -52,15 +52,19 @@ export function SignIn() {
 
         return Alert.alert('Entrar', 'Não foi possível acessar')
       })
+      .then(() => {
+        Alert.alert('Cadastro', 'Usuario cadastrado com sucesso!')
+        navigation.goBack()
+      })
   }
   return (
     <VStack flex={1} alignItems="center" bg="yellow.100" px={8} pt={24}>
       <Logo width={140} height={140} />
-      <Heading color={colors.gray[700]} fontSize="30" mt={5} mb={1}>
+      <Heading color={colors.gray[300]} fontSize="20" mt={20} mb={6}>
         PETCARE
       </Heading>
-      <Heading color={colors.gray[700]} fontSize="20" mt={20} mb={6}>
-        Acesse sua conta
+      <Heading color={colors.gray[300]} fontSize="20" mt={20} mb={6}>
+        Cadastro
       </Heading>
 
       <Input
@@ -72,23 +76,16 @@ export function SignIn() {
         onChangeText={setEmail}
       />
       <Input
-        mb={3}
+        mb={8}
         placeholder="Senha"
         InputLeftElement={<Icon as={<Key color={colors.gray[300]} />} ml={4} />}
         secureTextEntry
         onChangeText={setPassword}
       />
-      <Text mb={5} color={colors.gray[300]}>
-        You don`t register?
-        <Link onPress={handleNewUser} textDecoration="none">
-          Register now.
-        </Link>
-      </Text>
       <Button
-        title="Entrar"
+        title="Cadastro"
         w="full"
-        mb={1}
-        onPress={handleSignIn}
+        onPress={handleNewUser}
         isLoading={isLoading}
       />
     </VStack>

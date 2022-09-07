@@ -16,7 +16,7 @@ export function Register() {
 
   function headleNewOrderRegister() {
     if (!patrimony || !description) {
-      return Alert.alert('Registrar', 'Preencga todos os campos!')
+      return Alert.alert('Registrar', 'Preencha todos os campos!')
     }
     setIsLoading(true)
     firestore()
@@ -28,7 +28,7 @@ export function Register() {
         created_at: firestore.FieldValue.serverTimestamp()
       })
       .then(() => {
-        Alert.alert('SOlicitacao', 'Solicitacao registrada com sucesso!')
+        Alert.alert('Solicitacao', 'Solicitacao registrada com sucesso!')
         navigation.goBack()
       })
       .catch(error => {
