@@ -4,7 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { HStack, VStack, useTheme, Text, ScrollView, Box } from 'native-base'
 import firestore from '@react-native-firebase/firestore'
 import { Header } from '../components/Header'
-import { PetsProps } from '../components/Order'
+import { PetsProps } from '../components/Pets'
 import { PetsFirestoreDTO } from '../DTOs/OrderDTO'
 import { dateFormat } from '../utils/firestoreDateFormat'
 import { Loading } from '../components/Loading'
@@ -19,7 +19,7 @@ import { Input } from '../components/Input'
 import { Button } from '../components/Button'
 
 type RouteParams = {
-  orderId: string
+  petsId: string
 }
 
 type PetsDatails = PetsProps & {
@@ -33,7 +33,7 @@ export function Details() {
   const [pets, setPets] = useState<PetsDatails>({} as PetsDatails)
 
   const route = useRoute()
-  const { orderId } = route.params as RouteParams
+  const { petsId } = route.params as RouteParams
 
   const { colors } = useTheme()
   const navigation = useNavigation()
@@ -41,7 +41,7 @@ export function Details() {
   function handlePetsClosed() {
     firestore()
       .collection<PetsFirestoreDTO>('pets')
-      .doc(orderId)
+      .doc(petsId)
       .update({
         status: 'adotado',
         closed_at: firestore.FieldValue.serverTimestamp()
@@ -59,7 +59,7 @@ export function Details() {
   useEffect(() => {
     firestore()
       .collection<PetsFirestoreDTO>('pets')
-      .doc(orderId)
+      .doc(petsId)
       .get()
       .then(doc => {
         const { nome, descricao, status, created_at, closed_at, adotar } =

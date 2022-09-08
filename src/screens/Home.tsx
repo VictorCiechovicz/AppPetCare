@@ -21,7 +21,7 @@ import { SignOut, ChatTeardropText } from 'phosphor-react-native'
 import { Loading } from '../components/Loading'
 import { Filter } from '../components/Filter'
 import { Button } from '../components/Button'
-import { Pets, PetsProps } from '../components/Order'
+import { Pets, PetsProps } from '../components/Pets'
 import Logo from '../../assets/logo_secondary.svg'
 
 export function Home() {
@@ -40,8 +40,8 @@ export function Home() {
     navigation.navigate('new')
   }
 
-  function handleOpenDetails(orderId: string) {
-    navigation.navigate('details', { orderId })
+  function handleOpenDetails(petsId: string) {
+    navigation.navigate('details', {petsId})
   }
 
   function handleLogout() {
