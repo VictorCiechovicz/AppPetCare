@@ -1,11 +1,17 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { VStack, HStack } from 'native-base'
+import { VStack, HStack,Image } from 'native-base'
 import firestore from '@react-native-firebase/firestore'
+import storage from '@react-native-firebase/storage'
+import { utils } from '@react-native-firebase/app'
 import { Header } from '../components/Header'
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
+
+import * as ImagePecker from 'expo-image-picker'
+import * as Firebase from '@react-native-firebase/app' 
+
 
 export function Register() {
   const [isLoading, setIsLoading] = useState(false)
@@ -13,6 +19,8 @@ export function Register() {
   const [descricao, setDescricao] = useState('')
   const [raca, setRaca] = useState('')
   const [idade, setIdade] = useState('')
+
+ 
 
   const navigation = useNavigation()
 
@@ -41,6 +49,14 @@ export function Register() {
         return Alert.alert('Cadastro', 'Nao foi possivel cadastrar!')
       })
   }
+
+  const submitImage = () => {
+   
+  }
+  const chooseImage = () => {
+   
+  }
+
   return (
     <VStack flex={1} bg="primary.100">
       <HStack
@@ -59,12 +75,15 @@ export function Register() {
         <Input placeholder="Imagem do animal" mt={1} onChangeText={setNome} />
         <Input
           placeholder="Descricao do animal"
-         
           mt={1}
           multiline
           textAlignVertical="top"
           onChangeText={setDescricao}
         />
+
+               <Image   />
+               <Button title="Escolher imagem" onPress={chooseImage}></Button>
+        <Button title="Enviar imagem" onPress={submitImage}></Button>
       </VStack>
 
       <VStack flex={1} px={6} mt={5}>
