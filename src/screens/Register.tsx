@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { VStack } from 'native-base'
+import { VStack, HStack } from 'native-base'
 import firestore from '@react-native-firebase/firestore'
 import { Header } from '../components/Header'
 import { Input } from '../components/Input'
@@ -27,7 +27,7 @@ export function Register() {
         nome,
         raca,
         idade,
-        status: 'open',
+        status: 'naoadotado',
         descricao,
         created_at: firestore.FieldValue.serverTimestamp()
       })
@@ -42,31 +42,38 @@ export function Register() {
       })
   }
   return (
-    <VStack flex={1} p={6} bg="primary.700">
-      <Header title="cadastro" textDecoration="uppercase" />
+    <VStack flex={1} bg="primary.100">
+      <HStack
+        w="full"
+        justifyContent="space-between"
+        alignItems="center"
+        bg="primary.700"
+        px={6}
+      >
+        <Header title="cadastro" textDecoration="uppercase" />
+      </HStack>
+      <VStack px={5} mt={5} mb={10}>
+        <Input placeholder="Nome do animal" onChangeText={setNome} />
+        <Input placeholder="Raca" mt={1} onChangeText={setRaca} />
+        <Input placeholder="Idade" mt={1} onChangeText={setIdade} />
+        <Input placeholder="Imagem do animal" mt={1} onChangeText={setNome} />
+        <Input
+          placeholder="Descricao do animal"
+         
+          mt={1}
+          multiline
+          textAlignVertical="top"
+          onChangeText={setDescricao}
+        />
+      </VStack>
 
-      <Input
-        placeholder="Nome do animal"
-        onChangeText={setNome}
-      />
-      <Input placeholder="Raca" mt={1} onChangeText={setRaca} />
-      <Input placeholder="Idade" mt={1} onChangeText={setIdade} />
-      <Input placeholder="Imagem do animal" mt={1} onChangeText={setNome} />
-      <Input
-        placeholder="Descricao do animal"
-        flex={1}
-        mt={1}
-        multiline
-        textAlignVertical="top"
-        onChangeText={setDescricao}
-      />
-
-      <Button
-        title="Cadastrar"
-        mt={5}
-        onPress={headleNewPetRegister}
-        isLoading={isLoading}
-      />
+      <VStack flex={1} px={6} mt={5}>
+        <Button
+          title="Cadastrar"
+          onPress={headleNewPetRegister}
+          isLoading={isLoading}
+        />
+      </VStack>
     </VStack>
   )
 }

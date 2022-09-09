@@ -20,8 +20,8 @@ export function Header({ title, ...rest }) {
       justifyContent="space-between"
       alignItems="center"
       bg="primary.700"
-      pb={6}
-      pt={12}
+     
+      pt={5}
       mt={5}
       mb={3}
       {...rest}

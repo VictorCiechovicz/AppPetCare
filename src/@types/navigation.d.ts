@@ -4,6 +4,7 @@ export declare global{
       home:undefined;
       new:undefined;
       register:undefined;
+      singin:undefined;
       details:{petsId:string}
     }
   }

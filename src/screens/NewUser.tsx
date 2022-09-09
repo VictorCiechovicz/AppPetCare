@@ -42,17 +42,17 @@ export function NewUser() {
       .finally(() => setIsLoading(false))
   }
   return (
-    <VStack flex={1} alignItems="center" bg="yellow.100" px={8} pt={24}>
+    <VStack flex={1} alignItems="center" bg="primary.100" px={8} pt={20}>
       <Logo width={140} height={140} />
-      <Heading color={colors.gray[300]} fontSize="20" mt={20} mb={6}>
+      <Heading color={colors.gray[300]} fontSize="30" mt={1} mb={1}>
         PETCARE
       </Heading>
-      <Heading color={colors.gray[300]} fontSize="20" mt={20} mb={6}>
+      <Heading color={colors.gray[300]} fontSize="20" mt={1} mb={6}>
         Cadastro
       </Heading>
 
       <Input
-        mb={4}
+        mb={3}
         placeholder="E-mail"
         InputLeftElement={
           <Icon as={<Envelope color={colors.gray[300]} />} ml={4} />
@@ -60,7 +60,7 @@ export function NewUser() {
         onChangeText={setEmail}
       />
       <Input
-        mb={8}
+        mb={4}
         placeholder="Senha"
         InputLeftElement={<Icon as={<Key color={colors.gray[300]} />} ml={4} />}
         secureTextEntry

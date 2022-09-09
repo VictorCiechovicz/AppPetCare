@@ -11,7 +11,7 @@ import { Loading } from '../components/Loading'
 import {
   CircleWavyCheck,
   Hourglass,
-  DesktopTower,
+  PawPrint ,
   Clipboard
 } from 'phosphor-react-native'
 import { CardDetails } from '../components/CardDetails'
@@ -83,18 +83,19 @@ export function Details() {
     return <Loading />
   }
   return (
-    <VStack flex={1} bg="yellow.100">
-      <Box px={6} bg="gray.600">
-        <Header title="Solicitacao" />
+    <VStack flex={1} bg="primary.100">
+      <Box px={6} bg="primary.700">
+        <Header title="Animal" />
       </Box>
-      <HStack bg="gray.500" justifyContent="center" p={4}>
-        {pets.status === 'naoadotado' ? (
+      <HStack bg="primary.700" justifyContent="center" p={4}>
+        {pets.status === 'adotado' ? (
           <CircleWavyCheck size={22} color={colors.green[300]} />
         ) : (
           <Hourglass size={22} color={colors.secondary[700]} />
         )}
 
         <Text
+        
           fontSize="sm"
           color={
             pets.status === 'adotado'
@@ -103,19 +104,23 @@ export function Details() {
           }
           ml={2}
           textTransform="uppercase"
+        
         >
           {pets.status === 'adotado' ? 'Animal adotado' : 'Animal nao adotado'}
         </Text>
       </HStack>
       <ScrollView mx={5} showsVerticalScrollIndicator={false}>
         <CardDetails
-          title="equipamento"
-          description={`Patrimonio ${pets.nome}`}
-          icon={DesktopTower}
+          title="Animal"
+          description={
+            `Nome: ${pets.nome}`
+            
+          }
+          icon={PawPrint }
           footer={pets.when}
         />
         <CardDetails
-          title="descricao do problema"
+          title="descricao do animal"
           description={pets.descricao}
           icon={Clipboard}
         />

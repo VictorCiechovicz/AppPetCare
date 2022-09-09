@@ -16,7 +16,7 @@ import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import { useNavigation } from '@react-navigation/native'
 
-import { SignOut, ChatTeardropText } from 'phosphor-react-native'
+import { SignOut, Dog } from 'phosphor-react-native'
 
 import { Loading } from '../components/Loading'
 import { Filter } from '../components/Filter'
@@ -27,7 +27,7 @@ import Logo from '../../assets/logo_secondary.svg'
 export function Home() {
   const [isLoading, setIsLoading] = useState(true)
   const [statusSelected, setStatusSelected] = useState<
-    'adotado' | 'naoadotado'
+    'naoadotado' | 'adotado'
   >('naoadotado')
 
   const [pets, setPets] = useState<PetsProps[]>([])
@@ -41,7 +41,7 @@ export function Home() {
   }
 
   function handleOpenDetails(petsId: string) {
-    navigation.navigate('details', {petsId})
+    navigation.navigate('details', { petsId })
   }
 
   function handleLogout() {
@@ -75,14 +75,14 @@ export function Home() {
         setIsLoading(false)
       })
     return subscribe
-  }, [])
+  }, [statusSelected])
   return (
-    <VStack flex={1} pb={6} bg="yellow.100">
+    <VStack flex={1} pb={6} bg="primary.100">
       <HStack
         w="full"
         justifyContent="space-between"
         alignItems="center"
-        bg="yellow.600"
+        bg="primary.700"
         pt={12}
         pb={5}
         px={6}
@@ -130,7 +130,7 @@ export function Home() {
             contentContainerStyle={{ paddingBottom: 100 }}
             ListEmptyComponent={() => (
               <Circle>
-                <ChatTeardropText color={colors.gray[300]} size={40} />
+                <Dog color={colors.gray[300]} size={50} />
                 <Text color="gray.300" fontSize="xl" mt={6} textAlign="center">
                   Nao possui nenhum animal cadastrado {'\n'}
                 </Text>
