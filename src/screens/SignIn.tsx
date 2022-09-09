@@ -53,12 +53,12 @@ export function SignIn() {
       })
   }
   return (
-    <VStack flex={1} alignItems="center" bg="yellow.100" px={8} pt={24}>
+    <VStack flex={1} alignItems="center" bg="primary.100" px={8} pt={24}>
       <Logo width={140} height={140} />
       <Heading color={colors.gray[700]} fontSize="30" mt={5} mb={1}>
         PETCARE
       </Heading>
-      <Heading color={colors.gray[700]} fontSize="20" mt={20} mb={6}>
+      <Heading color={colors.gray[700]} fontSize="20" mt={5} mb={6}>
         Acesse sua conta
       </Heading>
 
@@ -77,9 +77,12 @@ export function SignIn() {
         secureTextEntry
         onChangeText={setPassword}
       />
-      <Text mb={5} color={colors.gray[300]}>
-        You don`t register?
-        <Link onPress={handleNewUser}>Register now.</Link>
+      <Text mb={5} color={colors.gray[300]} fontSize="15">
+        Não possui uma conta?
+        <Link textDecoration="none" onPress={handleNewUser}>
+          
+          Registre-se agora!
+        </Link>
       </Text>
       <Button
         title="Entrar"

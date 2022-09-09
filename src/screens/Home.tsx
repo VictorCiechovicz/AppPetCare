@@ -16,7 +16,7 @@ import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import { useNavigation } from '@react-navigation/native'
 
-import { SignOut, Dog } from 'phosphor-react-native'
+import { SignOut, Dog, PawPrint } from 'phosphor-react-native'
 
 import { Loading } from '../components/Loading'
 import { Filter } from '../components/Filter'
@@ -35,10 +35,6 @@ export function Home() {
   const { colors } = useTheme()
 
   const navigation = useNavigation()
-
-  function handleNewPet() {
-    navigation.navigate('new')
-  }
 
   function handleOpenDetails(petsId: string) {
     navigation.navigate('details', { petsId })
@@ -83,11 +79,16 @@ export function Home() {
         justifyContent="space-between"
         alignItems="center"
         bg="primary.700"
-        pt={12}
-        pb={5}
+        pt={10}
+        pb={1}
         px={6}
       >
-        <Logo width={150} height={70} />
+        <HStack>
+          <PawPrint size={40} color={colors.gray[100]} />
+          <Text fontSize="30" fontWeight="bold" color={colors.gray[100]}>
+            PETCARE
+          </Text>
+        </HStack>
 
         <IconButton
           icon={<SignOut size={26} color={colors.gray[100]} />}
@@ -103,7 +104,7 @@ export function Home() {
           justifyContent="space-between"
           alignItems="center"
         ></HStack>
-        <HStack space={3} mb={8}>
+        <HStack space={3} mb={5}>
           <Filter
             type="naoadotado"
             title="Nao adotados"
@@ -132,14 +133,12 @@ export function Home() {
               <Circle>
                 <Dog color={colors.gray[300]} size={50} />
                 <Text color="gray.300" fontSize="xl" mt={6} textAlign="center">
-                  Nao possui nenhum animal cadastrado {'\n'}
+                  Não possui nenhum animal cadastrado. {'\n'}
                 </Text>
               </Circle>
             )}
           />
         )}
-
-        <Button title="Cadastrar animal" onPress={handleNewPet} />
       </VStack>
     </VStack>
   )

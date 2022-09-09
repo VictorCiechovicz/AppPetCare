@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { VStack, Heading, Icon, useTheme } from 'native-base'
+
+import { VStack, Heading, Icon, useTheme, Text, Link } from 'native-base'
 import { Envelope, Key } from 'phosphor-react-native'
 import auth from '@react-native-firebase/auth'
 import { Alert } from 'react-native'
@@ -44,10 +45,10 @@ export function NewUser() {
   return (
     <VStack flex={1} alignItems="center" bg="primary.100" px={8} pt={20}>
       <Logo width={140} height={140} />
-      <Heading color={colors.gray[300]} fontSize="30" mt={1} mb={1}>
+      <Heading color={colors.gray[700]} fontSize="30" mt={1} mb={1}>
         PETCARE
       </Heading>
-      <Heading color={colors.gray[300]} fontSize="20" mt={1} mb={6}>
+      <Heading color={colors.gray[700]} fontSize="20" mt={1} mb={6}>
         Cadastro
       </Heading>
 
@@ -72,6 +73,10 @@ export function NewUser() {
         onPress={handleNewUser}
         isLoading={isLoading}
       />
+
+      <Link mt={5} onPress={() => navigation.goBack()}>
+        Já tenho uma conta!
+      </Link>
     </VStack>
   )
 }

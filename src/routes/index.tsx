@@ -6,6 +6,7 @@ import { Loading } from '../components/Loading'
 
 import { StackRouts } from './stack.routes'
 import { StackRouts2 } from '../routes/stack2.routes'
+import { TabRouts } from './tab.routes'
 
 export function Routes() {
   const [loading, setLoading] = useState(true)
@@ -26,7 +27,7 @@ export function Routes() {
 
   return (
     <NavigationContainer>
-      {user ? <StackRouts /> : <StackRouts2 />}
+      {user ? <TabRouts /> : <StackRouts2 />}
     </NavigationContainer>
   )
 }
