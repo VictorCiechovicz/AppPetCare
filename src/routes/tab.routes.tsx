@@ -22,7 +22,8 @@ export function TabRouts() {
           textTransform: 'uppercase'
         },
         tabBarActiveTintColor: '#fff',
-        tabBarInactiveTintColor: '#7C7C8A'
+        tabBarInactiveTintColor: '#7C7C8A',
+        tabBarHideOnKeyboard: true
       }}
     >
       <Screen

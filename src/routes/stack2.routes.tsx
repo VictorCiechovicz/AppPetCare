@@ -10,7 +10,7 @@ export function StackRouts2() {
   return (
     <Navigator screenOptions={{ headerShown: false }}>
       <Screen name="signin" component={SignIn} />
-      <Screen name="register" component={NewUser} />
+      <Screen name="cadastro" component={NewUser} />
     </Navigator>
   )
 }

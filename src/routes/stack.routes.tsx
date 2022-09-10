@@ -11,8 +11,7 @@ export function StackRouts() {
   return (
     <Navigator screenOptions={{ headerShown: false }}>
       <Screen name="home" component={Home} />
-      <Screen name="new" component={Register} />
-      <Screen name="details" component={Details} />
+        <Screen name="details" component={Details} />
     </Navigator>
   )
 }

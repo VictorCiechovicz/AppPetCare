@@ -8,7 +8,9 @@
     ],
     "plugins": [
       "@react-native-firebase/app"
+      
     ],
+    
     "android": {
       "package": "com.victorciechovicz.PetCare",
       "googleServicesFile": "./google-services.json"
