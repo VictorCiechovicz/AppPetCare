@@ -57,11 +57,15 @@ export function Home() {
       .where('status', '==', statusSelected)
       .onSnapshot(snapshot => {
         const data = snapshot.docs.map(doc => {
-          const { nome, descricao, status, created_at } = doc.data()
+          const { nome, raca, descricao, idade,cidade,estado, status, created_at } = doc.data()
 
           return {
             id: doc.id,
             nome,
+            raca,
+            idade,
+            cidade,
+            estado,
             descricao,
             status,
             when: dateFormat(created_at)
@@ -72,6 +76,8 @@ export function Home() {
       })
     return subscribe
   }, [statusSelected])
+
+  
   return (
     <VStack flex={1} pb={6} bg="primary.100">
       <HStack

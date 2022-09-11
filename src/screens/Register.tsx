@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Alert, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { VStack, HStack, Image, Box } from 'native-base'
+import { VStack, HStack, Image, Box, ScrollView, Select } from 'native-base'
 
 import firestore from '@react-native-firebase/firestore'
 import storage from '@react-native-firebase/storage'
@@ -9,6 +9,8 @@ import { utils } from '@react-native-firebase/app'
 import { Header } from '../components/Header'
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
+
+import { Check } from 'phosphor-react-native'
 
 import {
   launchCamera,
@@ -24,6 +26,8 @@ export function Register() {
   const [raca, setRaca] = useState('')
   const [idade, setIdade] = useState('')
   const [imagem, setImagem] = useState<string>('')
+  const [cidade, setCidade] = useState('')
+  const [estado, setEstado] = useState('')
 
   const navigation = useNavigation()
 
@@ -38,6 +42,8 @@ export function Register() {
         nome,
         raca,
         idade,
+        cidade,
+        estado,
         status: 'naoadotado',
         descricao,
         created_at: firestore.FieldValue.serverTimestamp()
@@ -110,7 +116,8 @@ export function Register() {
   //funcao para enviar para o firebase
   async function handleUpload() {
     const fileName = new Date().getTime()
-    const reference = storage().ref(`/images/${fileName}.png`)
+    const MIME = imagem.match(/\.(?:.(?!\.))+$/) //esse MIME pega e repassa o tipo da imagem para salvar no Firebase.
+    const reference = storage().ref(`/images/${fileName}${MIME}`)
 
     reference.putFile(imagem).catch(error => console.log(error))
   }
@@ -120,13 +127,6 @@ export function Register() {
   const uploadEveryThingPage = () => {
     headleNewPetRegister()
     handleUpload()
-    .then(() => {
-      setIsLoading(false)
-      setNome(null)
-      setDescricao(null)
-      setIdade(null)
-      setImagem(null)
-    })
   }
 
   return (
@@ -140,60 +140,129 @@ export function Register() {
       >
         <Header title="cadastro" textDecoration="uppercase" />
       </HStack>
-      <HStack
-        flex={1}
-        alignItems="center"
-        justifyContent="center"
-        mb={5}
-        mt={10}
-      >
-        <TouchableOpacity onPress={handleImagePet}>
-          {!imagem ? (
-            <Box
-              alignItems="center"
-              justifyContent="center"
-              h="150"
-              w="150"
-              px={6}
-              borderRadius={75}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <HStack
+          flex={1}
+          alignItems="center"
+          justifyContent="center"
+          mb={5}
+          mt={10}
+        >
+          <TouchableOpacity onPress={handleImagePet}>
+            {!imagem ? (
+              <Box
+                alignItems="center"
+                justifyContent="center"
+                h="200"
+                w="200"
+                px={6}
+                borderRadius={100}
+                borderWidth={1}
+                bg="gray.100"
+              >
+                Escolha uma foto
+              </Box>
+            ) : (
+              <Image
+                h="200"
+                w="200"
+                borderRadius={100}
+                source={{ uri: imagem }}
+                alt="foto do animal"
+              />
+            )}
+          </TouchableOpacity>
+        </HStack>
+
+        <VStack px={5} mt={5} mb={5}>
+          <Input placeholder="Nome do animal" onChangeText={setNome} />
+
+          <Box maxW="300">
+            <Select
+              selectedValue={raca}
+              w={354}
+              h={14}
               borderWidth={1}
-              bg="gray.100"
+              placeholder="Escolha a Raca"
+              size="md"
+              placeholderTextColor="gray.300"
+              _selectedItem={{
+                bg: 'gray.300',
+                endIcon: <Check size={10} />
+              }}
+              mt={5}
+              onValueChange={itemValue => setRaca(itemValue)}
             >
-              Escolha uma foto
-            </Box>
-          ) : (
-            <Image
-              h="150"
-              w="150"
-              borderRadius={75}
-              source={{ uri: imagem }}
-              alt="foto do animal"
-            />
-          )}
-        </TouchableOpacity>
-      </HStack>
+              <Select.Item label="Cachorro" value="cachorro" />
+              <Select.Item label="Gato" value="gato" />
+            </Select>
+          </Box>
+          <Input placeholder="Idade" mt={5} onChangeText={setIdade} />
+          <Input placeholder="Cidade" mt={5} onChangeText={setCidade} />
+          <Box maxW="300">
+            <Select
+              selectedValue={estado}
+              w={354}
+              h={14}
+              borderWidth={1}
+              placeholder="Estado"
+              size="md"
+              placeholderTextColor="gray.300"
+              _selectedItem={{
+                bg: 'gray.300',
+                endIcon: <Check size={10} />
+              }}
+              mt={5}
+              onValueChange={itemValue => setEstado(itemValue)}
+            >
+              <Select.Item label="Acre" value="AC" />
+              <Select.Item label="Alagoas" value="AL" />
+              <Select.Item label="Amapá" value="AP" />
+              <Select.Item label="Amazonas" value="AM" />
+              <Select.Item label="Bahia" value="BA" />
+              <Select.Item label="Ceará" value="CE" />
+              <Select.Item label="Destrito Federal" value="DF" />
+              <Select.Item label="Espírito Santo" value="ES" />
+              <Select.Item label="Goiás" value="GO" />
+              <Select.Item label="Maranhao" value="MA" />
+              <Select.Item label="Mato Grosso" value="MT" />
+              <Select.Item label="Mato Grosso do Sul" value="MS" />
+              <Select.Item label="Minas Gerais" value="MG" />
+              <Select.Item label="Pará" value="PA" />
+              <Select.Item label="Paraíba" value="PB" />
+              <Select.Item label="Paraná" value="PR" />
+              <Select.Item label="Pernanbuco" value="PE" />
+              <Select.Item label="Piauí" value="PI" />
+              <Select.Item label="Rio de Janeiro" value="RJ" />
+              <Select.Item label="Rio Grande do Norte" value="RN" />
+              <Select.Item label="Rio Grande do Sul" value="RS" />
+              <Select.Item label="Rondonia" value="RO" />
+              <Select.Item label="Roraima" value="RR" />
+              <Select.Item label="Santa Catarina" value="SC" />
+              <Select.Item label="Sao Paulo" value="SP" />
+              <Select.Item label="Sergipe" value="SE" />
+              <Select.Item label="Tocantins" value="TO" />
+            </Select>
+          </Box>
 
-      <VStack px={5} mt={5} mb={5}>
-        <Input placeholder="Nome do animal" onChangeText={setNome} />
-        <Input placeholder="Raca" mt={1} onChangeText={setRaca} />
-        <Input placeholder="Idade" mt={1} onChangeText={setIdade} />
+          <Input
+            placeholder="Descricao do animal"
+            mt={5}
+            h={40}
+            multiline
+            textAlignVertical="top"
+            onChangeText={setDescricao}
+          />
+        </VStack>
 
-        <Input
-          placeholder="Descricao do animal"
-          mt={1}
-          multiline
-          textAlignVertical="top"
-          onChangeText={setDescricao}
-        />
-      </VStack>
-
-      <VStack flex={1} px={6}>
-        <Button
-          title="Cadastrar"
-          onPress={uploadEveryThingPage}
-          isLoading={isLoading}
-        />
-      </VStack>
+        <VStack flex={1} px={6} mt={5} mb={5}>
+          <Button
+            title="Cadastrar"
+            onPress={uploadEveryThingPage}
+            isLoading={isLoading}
+          />
+        </VStack>
+      </ScrollView>
     </VStack>
   )
 }
