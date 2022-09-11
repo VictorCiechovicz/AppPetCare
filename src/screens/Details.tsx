@@ -1,7 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Alert } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { HStack, VStack, useTheme, Text, ScrollView, Box } from 'native-base'
+import {
+  HStack,
+  VStack,
+  useTheme,
+  Text,
+  ScrollView,
+  Box,
+  Image
+} from 'native-base'
 import firestore from '@react-native-firebase/firestore'
 import { Header } from '../components/Header'
 import { PetsProps } from '../components/Pets'
@@ -11,12 +19,14 @@ import { Loading } from '../components/Loading'
 import {
   CircleWavyCheck,
   Hourglass,
-  PawPrint ,
+  PawPrint,
   Clipboard
 } from 'phosphor-react-native'
 import { CardDetails } from '../components/CardDetails'
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
+
+import dog from '../../assets/dog.jpg'
 
 type RouteParams = {
   petsId: string
@@ -62,13 +72,26 @@ export function Details() {
       .doc(petsId)
       .get()
       .then(doc => {
-        const { nome, descricao, status, created_at, closed_at, adotar } =
-          doc.data()
+        const {
+          nome,
+          raca,
+          idade,
+          cidade,
+          estado,
+          descricao,
+          status,
+          created_at,
+          closed_at
+        } = doc.data()
         const closed = closed_at ? dateFormat(closed_at) : null
 
         setPets({
           id: doc.id,
           nome,
+          raca,
+          idade,
+          cidade,
+          estado,
           descricao,
           status,
           when: dateFormat(created_at),
@@ -95,7 +118,6 @@ export function Details() {
         )}
 
         <Text
-        
           fontSize="sm"
           color={
             pets.status === 'adotado'
@@ -104,20 +126,21 @@ export function Details() {
           }
           ml={2}
           textTransform="uppercase"
-        
         >
           {pets.status === 'adotado' ? 'Animal adotado' : 'Animal nao adotado'}
         </Text>
       </HStack>
       <ScrollView mx={5} showsVerticalScrollIndicator={false}>
+        <HStack flex={1} alignItems="center" justifyContent="center" mt={10}>
+          <Image source={dog} w="full" h={300} alt="animal" borderRadius={20} />
+        </HStack>
+
         <CardDetails
           title="Animal"
-          description={
-            `Nome: ${pets.nome}`
-            
-          }
-          icon={PawPrint }
-          footer={pets.when}
+          description={pets.nome}
+          body={`Cidade: ${pets.cidade}`}
+          icon={PawPrint}
+          footer={`Anunciado: ${pets.when}`}
         />
         <CardDetails
           title="descricao do animal"

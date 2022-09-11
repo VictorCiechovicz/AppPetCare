@@ -27,12 +27,12 @@ export function Header({ title, ...rest }) {
       {...rest}
     >
       <IconButton
-        icon={<CaretLeft color={colors.gray[200]} size={24} />}
+        icon={<CaretLeft color={colors.gray[200]} size={30} />}
         onPress={handleGoBack}
       />
 
       <Heading
-        color="gray.100"
+        color="white"
         textAlign="center"
         textTransform="uppercase"
         fontSize="lg"

@@ -90,8 +90,8 @@ export function Home() {
         px={6}
       >
         <HStack>
-          <PawPrint size={40} color={colors.gray[100]} />
-          <Text fontSize="30" fontWeight="bold" color={colors.gray[100]}>
+          <PawPrint size={40} color="white" />
+          <Text fontSize="30" fontWeight="bold" color="white">
             PETCARE
           </Text>
         </HStack>

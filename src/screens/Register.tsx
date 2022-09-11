@@ -158,7 +158,7 @@ export function Register() {
                 px={6}
                 borderRadius={100}
                 borderWidth={1}
-                bg="gray.100"
+                bg="primary.200"
               >
                 Escolha uma foto
               </Box>
