@@ -107,7 +107,7 @@ export function Home() {
         />
       </HStack>
 
-      <VStack flex={1} px={6}>
+      <VStack flex={1} px={2}>
         <HStack
           w="full"
           mb={4}

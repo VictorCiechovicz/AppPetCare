@@ -51,14 +51,6 @@ export function Register() {
       .then(() => {
         Alert.alert('Cadastro', 'Animal cadastrado com sucesso!')
         navigation.goBack()
-        setIsLoading(false)
-        setNome('')
-        setDescricao('')
-        setRaca('')
-        setIdade('')
-        setImagem('')
-        setCidade('')
-        setEstado('')
       })
       .catch(error => {
         console.log(error)

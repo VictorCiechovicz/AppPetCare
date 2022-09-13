@@ -44,7 +44,7 @@ export function Pets({ data, ...rest }: Props) {
         <Image source={dog} w={170} h={200} alt="animal" borderRadius={20} />
 
         <HStack
-          w={170}
+          w={200}
           h={150}
           bg="white"
           alignItems="center"
