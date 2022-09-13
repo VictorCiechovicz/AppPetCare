@@ -26,9 +26,6 @@ import Logo from '../../assets/logo_secondary.svg'
 
 export function Home() {
   const [isLoading, setIsLoading] = useState(true)
-  const [statusSelected, setStatusSelected] = useState<
-    'naoadotado' | 'adotado'
-  >('naoadotado')
 
   const [pets, setPets] = useState<PetsProps[]>([])
 
@@ -54,10 +51,19 @@ export function Home() {
 
     const subscribe = firestore()
       .collection('pets')
-      .where('status', '==', statusSelected)
+      .where('status', '==', 'naoadotado')
       .onSnapshot(snapshot => {
         const data = snapshot.docs.map(doc => {
-          const { nome, raca, descricao, idade,cidade,estado, status, created_at } = doc.data()
+          const {
+            nome,
+            raca,
+            descricao,
+            idade,
+            cidade,
+            estado,
+            status,
+            created_at
+          } = doc.data()
 
           return {
             id: doc.id,
@@ -75,9 +81,8 @@ export function Home() {
         setIsLoading(false)
       })
     return subscribe
-  }, [statusSelected])
+  }, [])
 
-  
   return (
     <VStack flex={1} pb={6} bg="primary.100">
       <HStack
@@ -105,25 +110,11 @@ export function Home() {
       <VStack flex={1} px={6}>
         <HStack
           w="full"
-          mt={8}
           mb={4}
           justifyContent="space-between"
           alignItems="center"
         ></HStack>
-        <HStack space={3} mb={5}>
-          <Filter
-            type="naoadotado"
-            title="Nao adotados"
-            onPress={() => setStatusSelected('naoadotado')}
-            isActive={statusSelected === 'naoadotado'}
-          />
-          <Filter
-            type="adotado"
-            title="adotados"
-            onPress={() => setStatusSelected('adotado')}
-            isActive={statusSelected === 'adotado'}
-          />
-        </HStack>
+        <HStack space={3} mb={5}></HStack>
         {isLoading ? (
           <Loading />
         ) : (

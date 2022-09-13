@@ -22,7 +22,7 @@ export function SignIn() {
   const navigation = useNavigation()
 
   function handleNewUser() {
-    navigation.navigate('register')
+    navigation.navigate('cadastro')
   }
 
   function handleSignIn() {
@@ -80,7 +80,6 @@ export function SignIn() {
       <Text mb={5} color={colors.gray[300]} fontSize="15">
         Não possui uma conta?
         <Link textDecoration="none" onPress={handleNewUser}>
-          
           Registre-se agora!
         </Link>
       </Text>

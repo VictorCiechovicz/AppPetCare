@@ -1,27 +1,14 @@
 import { useEffect, useState } from 'react'
-import { Alert } from 'react-native'
+import { Alert, ImageBackground } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import {
-  HStack,
-  VStack,
-  useTheme,
-  Text,
-  ScrollView,
-  Box,
-  Image
-} from 'native-base'
+import { HStack, VStack, useTheme, IconButton, Image } from 'native-base'
 import firestore from '@react-native-firebase/firestore'
 import { Header } from '../components/Header'
 import { PetsProps } from '../components/Pets'
-import { PetsFirestoreDTO } from '../DTOs/OrderDTO'
+import { PetsFirestoreDTO } from '../DTOs/PetsDTO'
 import { dateFormat } from '../utils/firestoreDateFormat'
 import { Loading } from '../components/Loading'
-import {
-  CircleWavyCheck,
-  Hourglass,
-  PawPrint,
-  Clipboard
-} from 'phosphor-react-native'
+import { CaretLeft, PawPrint } from 'phosphor-react-native'
 import { CardDetails } from '../components/CardDetails'
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
@@ -105,51 +92,38 @@ export function Details() {
   if (isLoading) {
     return <Loading />
   }
+
+  function handleGoBack() {
+    navigation.goBack()
+  }
   return (
-    <VStack flex={1} bg="primary.100">
-      <Box px={6} bg="primary.700">
-        <Header title="Animal" />
-      </Box>
-      <HStack bg="primary.700" justifyContent="center" p={4}>
-        {pets.status === 'adotado' ? (
-          <CircleWavyCheck size={22} color={colors.green[300]} />
-        ) : (
-          <Hourglass size={22} color={colors.secondary[700]} />
-        )}
-
-        <Text
-          fontSize="sm"
-          color={
-            pets.status === 'adotado'
-              ? colors.green[300]
-              : colors.secondary[700]
-          }
-          ml={2}
-          textTransform="uppercase"
-        >
-          {pets.status === 'adotado' ? 'Animal adotado' : 'Animal nao adotado'}
-        </Text>
-      </HStack>
-      <ScrollView mx={5} showsVerticalScrollIndicator={false}>
-        <HStack flex={1} alignItems="center" justifyContent="center" mt={10}>
-          <Image source={dog} w="full" h={300} alt="animal" borderRadius={20} />
-        </HStack>
-
-        <CardDetails
-          title="Animal"
-          description={pets.nome}
-          body={`Cidade: ${pets.cidade}`}
-          icon={PawPrint}
-          footer={`Anunciado: ${pets.when}`}
+    <VStack flex={1} bg="primary.100" alignItems="center">
+      <ImageBackground source={dog} style={{ width: 500, height: 500 }}>
+        <IconButton
+          mt={10}
+          mr={320}
+          backgroundColor="transparent"
+          icon={<CaretLeft color={colors.gray[100]} size={30} />}
+          onPress={handleGoBack}
         />
-        <CardDetails
-          title="descricao do animal"
-          description={pets.descricao}
-          icon={Clipboard}
-        />
-      </ScrollView>
+      </ImageBackground>
+
+      <CardDetails
+        title={pets.nome}
+        raca={pets.raca}
+        idade={`${pets.idade} years old`}
+        cidade={`${pets.cidade} - `}
+        estado={pets.estado}
+        footer={`Anunciado: ${pets.when}`}
+      />
+
       {pets.status === 'naoadotado' && (
-        <Button title="Adotar animal" m={5} onPress={handlePetsClosed} />
+        <Button
+          title="Adotar animal"
+          m={5}
+          onPress={handlePetsClosed}
+          w={300}
+        />
       )}
     </VStack>
   )

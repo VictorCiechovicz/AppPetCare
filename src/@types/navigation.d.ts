@@ -3,7 +3,7 @@ export declare global{
     interface RootParamList{
       home:undefined;
       new:undefined;
-      register:undefined;
+      cadastro:undefined;
       singin:undefined;
       details:{petsId:string}
     }

@@ -32,7 +32,7 @@ export function Register() {
   const navigation = useNavigation()
 
   function headleNewPetRegister() {
-    if (!nome || !descricao) {
+    if (!nome || !descricao || !raca || !idade || !cidade || !estado) {
       return Alert.alert('Registrar', 'Preencha todos os campos!')
     }
     setIsLoading(true)
@@ -51,6 +51,14 @@ export function Register() {
       .then(() => {
         Alert.alert('Cadastro', 'Animal cadastrado com sucesso!')
         navigation.goBack()
+        setIsLoading(false)
+        setNome('')
+        setDescricao('')
+        setRaca('')
+        setIdade('')
+        setImagem('')
+        setCidade('')
+        setEstado('')
       })
       .catch(error => {
         console.log(error)
@@ -93,6 +101,7 @@ export function Register() {
 
     if (result.assets) {
       setImagem(result.assets[0].uri!)
+
       return
     }
   }
@@ -113,7 +122,7 @@ export function Register() {
     }
   }
 
-  //funcao para enviar para o firebase
+  //funcao para enviar para o firebase a imagem
   async function handleUpload() {
     const fileName = new Date().getTime()
     const MIME = imagem.match(/\.(?:.(?!\.))+$/) //esse MIME pega e repassa o tipo da imagem para salvar no Firebase.
@@ -158,6 +167,7 @@ export function Register() {
                 px={6}
                 borderRadius={100}
                 borderWidth={1}
+                borderStyle="dashed"
                 bg="primary.200"
               >
                 Escolha uma foto
@@ -193,8 +203,8 @@ export function Register() {
               mt={5}
               onValueChange={itemValue => setRaca(itemValue)}
             >
-              <Select.Item label="Cachorro" value="cachorro" />
-              <Select.Item label="Gato" value="gato" />
+              <Select.Item label="Cachorro" value="Cachorro" />
+              <Select.Item label="Gato" value="Gato" />
             </Select>
           </Box>
           <Input placeholder="Idade" mt={5} onChangeText={setIdade} />

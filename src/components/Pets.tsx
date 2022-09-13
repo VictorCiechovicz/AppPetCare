@@ -45,19 +45,19 @@ export function Pets({ data, ...rest }: Props) {
 
         <HStack
           w={170}
-          h={170}
+          h={150}
           bg="white"
           alignItems="center"
           justifyContent="space-between"
           rounded="sm"
           overflow="hidden"
-          borderRightRadius={20}
+          borderRightRadius={17}
         >
           <VStack flex={1} my={5} ml={5} alignItems="flex-start">
             <Text
               color="primary.700"
               fontWeight="bold"
-              fontSize="xl"
+              fontSize={25}
               textTransform="uppercase"
             >
               {data.nome}
@@ -68,12 +68,12 @@ export function Pets({ data, ...rest }: Props) {
                   {data.raca}
                 </Text>
               </HStack>
-              <HStack alignItems="center" mt={2}>
+              <HStack alignItems="center" mt={3}>
                 <Text color="gray.200" fontSize="xs" ml={1}>
                   {data.idade} years old
                 </Text>
               </HStack>
-              <HStack alignItems="center" mt={2}>
+              <HStack alignItems="center" mt={3}>
                 <MapPin size={15} color={colors.gray[300]} />
                 <Text
                   color="gray.200"
@@ -84,12 +84,7 @@ export function Pets({ data, ...rest }: Props) {
                   {data.cidade}-{data.estado}
                 </Text>
               </HStack>
-              <HStack alignItems="center" mt={2}>
-                <ClockAfternoon size={15} color={colors.gray[300]} />
-                <Text color="gray.200" fontSize="xs" ml={1}>
-                  {data.when}
-                </Text>
-              </HStack>
+            
              
             </VStack>
           </VStack>
