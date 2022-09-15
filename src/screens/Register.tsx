@@ -122,8 +122,10 @@ export function Register() {
     const MIME = imagem.match(/\.(?:.(?!\.))+$/) //esse MIME pega e repassa o tipo da imagem para salvar no Firebase.
     const reference = storage().ref(`/images/${fileName}${MIME}`)
     await reference.putFile(imagem)
+  }
 
-    const urldaimagem = await reference.getDownloadURL()
+  async function baixarImagem(imagem: string) {
+    const urldaimagem = await storage().ref(imagem).getDownloadURL()
     setImagemUrl(urldaimagem)
   }
 
@@ -140,10 +142,12 @@ export function Register() {
 
   //funcao que envia todos os arquivos do regitro de animais
 
-  const uploadEveryThingPage = () => {
-    handleUpload().then(() => {
-      headleNewPetRegister()
-    }).catch(error => console.log(error))
+  async function uploadEveryThingPage() {
+    handleUpload()
+
+    const espera = await baixarImagem(imagem)
+
+    console.log(espera)
   }
 
   return (

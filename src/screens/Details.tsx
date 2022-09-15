@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react'
 import { Alert, ImageBackground } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { HStack, VStack, useTheme, IconButton, Image } from 'native-base'
+import {
+  HStack,
+  VStack,
+  useTheme,
+  IconButton,
+  Image,
+  ScrollView
+} from 'native-base'
 import firestore from '@react-native-firebase/firestore'
 import { Header } from '../components/Header'
 import { PetsProps } from '../components/Pets'
@@ -67,6 +74,7 @@ export function Details() {
           estado,
           descricao,
           status,
+          imagemurl,
           created_at,
           closed_at
         } = doc.data()
@@ -80,6 +88,7 @@ export function Details() {
           cidade,
           estado,
           descricao,
+          imagemurl,
           status,
           when: dateFormat(created_at),
           closed
