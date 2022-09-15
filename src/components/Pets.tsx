@@ -27,6 +27,7 @@ export type PetsProps = {
   cidade: string
   estado: string
   when: string
+  imagemurl:string
   status: 'adotado' | 'naoadotado'
 }
 

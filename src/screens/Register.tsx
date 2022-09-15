@@ -28,6 +28,7 @@ export function Register() {
   const [imagem, setImagem] = useState<string>('')
   const [cidade, setCidade] = useState('')
   const [estado, setEstado] = useState('')
+  const [imagemurl, setImagemUrl] = useState(' ')
 
   const navigation = useNavigation()
 
@@ -46,6 +47,7 @@ export function Register() {
         estado,
         status: 'naoadotado',
         descricao,
+        imagemurl,
         created_at: firestore.FieldValue.serverTimestamp()
       })
       .then(() => {
@@ -119,15 +121,29 @@ export function Register() {
     const fileName = new Date().getTime()
     const MIME = imagem.match(/\.(?:.(?!\.))+$/) //esse MIME pega e repassa o tipo da imagem para salvar no Firebase.
     const reference = storage().ref(`/images/${fileName}${MIME}`)
+    await reference.putFile(imagem)
 
-    reference.putFile(imagem).catch(error => console.log(error))
+    const urldaimagem = await reference.getDownloadURL()
+    setImagemUrl(urldaimagem)
   }
+
+  useEffect(() => {
+    setIsLoading(false)
+    setNome('')
+    setDescricao('')
+    setRaca('')
+    setIdade('')
+    setImagem('')
+    setCidade('')
+    setEstado('')
+  }, [])
 
   //funcao que envia todos os arquivos do regitro de animais
 
   const uploadEveryThingPage = () => {
-    headleNewPetRegister()
-    handleUpload()
+    handleUpload().then(() => {
+      headleNewPetRegister()
+    }).catch(error => console.log(error))
   }
 
   return (

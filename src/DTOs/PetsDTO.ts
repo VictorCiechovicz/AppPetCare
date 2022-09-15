@@ -7,6 +7,7 @@ export type PetsFirestoreDTO={
   cidade:string;
   estado:string;
   descricao:string;
+  url:string;
   status:'naoadotado'|'adotado';
   adotar?: string;
   created_at: FirebaseFirestoreTypes.Timestamp;
