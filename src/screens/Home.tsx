@@ -61,6 +61,7 @@ export function Home() {
             idade,
             cidade,
             estado,
+            imagemurl,
             status,
             created_at
           } = doc.data()
@@ -73,6 +74,7 @@ export function Home() {
             cidade,
             estado,
             descricao,
+            imagemurl,
             status,
             when: dateFormat(created_at)
           }
@@ -120,7 +122,7 @@ export function Home() {
         ) : (
           <FlatList
             data={pets}
-            keyExtractor={item => item.id}
+          
             renderItem={({ item }) => (
               <Pets data={item} onPress={() => handleOpenDetails(item.id)} />
             )}

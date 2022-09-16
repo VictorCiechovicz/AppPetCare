@@ -122,32 +122,26 @@ export function Register() {
     const MIME = imagem.match(/\.(?:.(?!\.))+$/) //esse MIME pega e repassa o tipo da imagem para salvar no Firebase.
     const reference = storage().ref(`/images/${fileName}${MIME}`)
     await reference.putFile(imagem)
-  }
 
-  async function baixarImagem(imagem: string) {
     const urldaimagem = await storage().ref(imagem).getDownloadURL()
     setImagemUrl(urldaimagem)
   }
 
-  useEffect(() => {
-    setIsLoading(false)
-    setNome('')
-    setDescricao('')
-    setRaca('')
-    setIdade('')
-    setImagem('')
-    setCidade('')
-    setEstado('')
-  }, [])
+  // useEffect(() => {
+  // setNome('')
+  // setDescricao('')
+  // setRaca('')
+  // setIdade('')
+  // setImagem('')
+  // setCidade('')
+  // setEstado('')
+  //, [])
 
   //funcao que envia todos os arquivos do regitro de animais
 
-  async function uploadEveryThingPage() {
+  const uploadEveryThingPage = () => {
     handleUpload()
-
-    const espera = await baixarImagem(imagem)
-
-    console.log(espera)
+    headleNewPetRegister()
   }
 
   return (
