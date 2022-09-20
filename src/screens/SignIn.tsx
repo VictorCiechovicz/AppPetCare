@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Envelope, Key } from 'phosphor-react-native'
-import { Alert } from 'react-native'
+import { Alert, TouchableOpacity } from 'react-native'
 
 import { VStack, Heading, Icon, useTheme, Text, Link } from 'native-base'
 
@@ -71,18 +71,14 @@ export function SignIn() {
         onChangeText={setEmail}
       />
       <Input
-        mb={3}
+        mb={10}
         placeholder="Senha"
         InputLeftElement={<Icon as={<Key color={colors.gray[300]} />} ml={4} />}
         secureTextEntry
         onChangeText={setPassword}
       />
-      <Text mb={5} color={colors.gray[300]} fontSize="15">
-        Não possui uma conta?
-        <Link textDecoration="none" onPress={handleNewUser}>
-          Registre-se agora!
-        </Link>
-      </Text>
+     
+
       <Button
         title="Entrar"
         w="full"
@@ -90,6 +86,12 @@ export function SignIn() {
         onPress={handleSignIn}
         isLoading={isLoading}
       />
+       <TouchableOpacity onPress={handleNewUser}>
+     
+     <Text color={colors.gray[300]} fontSize="15">
+       Não possui uma conta? <Text color={colors.yellow[400]}> Registre-se.</Text>
+     </Text>
+   </TouchableOpacity>
     </VStack>
   )
 }

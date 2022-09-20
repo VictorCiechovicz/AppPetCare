@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Alert, TouchableOpacity } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation,useIsFocused } from '@react-navigation/native'
 import { VStack, HStack, Image, Box, ScrollView, Select } from 'native-base'
 
 import firestore from '@react-native-firebase/firestore'
@@ -11,6 +11,8 @@ import { Input } from '../components/Input'
 import { Button } from '../components/Button'
 
 import { Check } from 'phosphor-react-native'
+
+
 
 import {
   launchCamera,
@@ -25,12 +27,13 @@ export function Register() {
   const [descricao, setDescricao] = useState('')
   const [raca, setRaca] = useState('')
   const [idade, setIdade] = useState('')
-  const [imagem, setImagem] = useState<string>('')
+  const [imagem, setImagem] = useState('')
   const [cidade, setCidade] = useState('')
   const [estado, setEstado] = useState('')
   const [imagemurl, setImagemUrl] = useState(' ')
 
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+  const estaNaTela = useIsFocused();
 
   function headleNewPetRegister() {
     if (!nome || !descricao || !raca || !idade || !cidade || !estado) {
@@ -123,19 +126,25 @@ export function Register() {
     const reference = storage().ref(`/images/${fileName}${MIME}`)
     await reference.putFile(imagem)
 
-    const urldaimagem = await storage().ref(imagem).getDownloadURL()
-    setImagemUrl(urldaimagem)
   }
 
-  // useEffect(() => {
-  // setNome('')
-  // setDescricao('')
-  // setRaca('')
-  // setIdade('')
-  // setImagem('')
-  // setCidade('')
-  // setEstado('')
-  //, [])
+async function uploadImagePet(){
+  
+}
+
+
+
+
+
+// useEffect(() => {
+//  setNome('');
+//      setDescricao('');
+//           setRaca('');
+//              setIdade('');
+//                 setImagem('');
+//                    setCidade('');
+//                       setEstado('') }, [estaNaTela])
+//           
 
   //funcao que envia todos os arquivos do regitro de animais
 
