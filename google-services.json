@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:596455861169:android:760d15a97d40666dd26b90",
+        "mobilesdk_app_id": "1:596455861169:android:0cd6daca06671932d26b90",
         "android_client_info": {
-          "package_name": "com.victorciechovicz.PetCare"
+          "package_name": "com.PetCare"
         }
       },
       "oauth_client": [

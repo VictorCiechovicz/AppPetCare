@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Alert, TouchableOpacity } from 'react-native'
-import { useNavigation,useIsFocused } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { VStack, HStack, Image, Box, ScrollView, Select } from 'native-base'
 
 import firestore from '@react-native-firebase/firestore'
@@ -33,7 +33,7 @@ export function Register() {
   const [imagemurl, setImagemUrl] = useState(' ')
 
   const navigation = useNavigation();
-  const estaNaTela = useIsFocused();
+
 
   function headleNewPetRegister() {
     if (!nome || !descricao || !raca || !idade || !cidade || !estado) {
@@ -136,15 +136,7 @@ async function uploadImagePet(){
 
 
 
-// useEffect(() => {
-//  setNome('');
-//      setDescricao('');
-//           setRaca('');
-//              setIdade('');
-//                 setImagem('');
-//                    setCidade('');
-//                       setEstado('') }, [estaNaTela])
-//           
+     
 
   //funcao que envia todos os arquivos do regitro de animais
 

@@ -23,7 +23,8 @@ export function TabRouts() {
         },
         tabBarActiveTintColor: '#fff',
         tabBarInactiveTintColor: '#7C7C8A',
-        tabBarHideOnKeyboard: true
+        tabBarHideOnKeyboard: true,
+        unmountOnBlur: true
       }}
     >
       <Screen
