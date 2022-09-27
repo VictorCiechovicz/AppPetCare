@@ -9,6 +9,7 @@ type Props = {
   idade?: string
   cidade?: string
   estado?: string
+  photo_url?: string
   footer?: string
 
   children?: ReactNode
@@ -33,7 +34,7 @@ export function CardDetails({
       h={160}
       p={5}
       mt={-20}
-      mb={10}
+      mb={5}
       rounded="sm"
       borderRadius={30}
     >

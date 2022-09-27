@@ -79,6 +79,7 @@ export function Register() {
         setIsLoading(false)
         return Alert.alert('Cadastro', 'Nao foi possivel cadastrar!')
       })
+      
   }
 
   return (

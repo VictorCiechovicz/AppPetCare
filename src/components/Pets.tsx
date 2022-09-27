@@ -17,8 +17,6 @@ import {
   MapPin
 } from 'phosphor-react-native'
 
-import dog from '../../assets/dog.jpg'
-
 export type PetsProps = {
   id: string
   nome: string
@@ -27,7 +25,7 @@ export type PetsProps = {
   cidade: string
   estado: string
   when: string
-  imagemurl:string
+  photo_url: string
   status: 'adotado' | 'naoadotado'
 }
 
@@ -42,7 +40,13 @@ export function Pets({ data, ...rest }: Props) {
   return (
     <Pressable {...rest}>
       <HStack flex={1} justifyContent="center" mb={5} alignItems="center">
-        <Image source={dog} w={170} h={200} alt="animal" borderRadius={20} />
+        <Image
+          source={{ uri: data.photo_url }}
+          w={170}
+          h={200}
+          alt="animal"
+          borderRadius={20}
+        />
 
         <HStack
           w={200}
@@ -85,8 +89,6 @@ export function Pets({ data, ...rest }: Props) {
                   {data.cidade}-{data.estado}
                 </Text>
               </HStack>
-            
-             
             </VStack>
           </VStack>
         </HStack>

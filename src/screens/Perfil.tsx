@@ -55,7 +55,7 @@ export function Perfil() {
             idade,
             cidade,
             estado,
-            imagemurl,
+            photo_url,
             status,
             created_at
           } = doc.data()
@@ -68,7 +68,7 @@ export function Perfil() {
             cidade,
             estado,
             descricao,
-            imagemurl,
+            photo_url,
             status,
             when: dateFormat(created_at)
           }
@@ -116,28 +116,6 @@ export function Perfil() {
           justifyContent="space-between"
           alignItems="center"
         ></HStack>
-
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <FlatList
-            data={pets}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => (
-              <Pets data={item} onPress={() => handleOpenDetails(item.id)} />
-            )}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: 100 }}
-            ListEmptyComponent={() => (
-              <Circle>
-                <Dog color={colors.gray[300]} size={50} />
-                <Text color="gray.300" fontSize="xl" mt={6} textAlign="center">
-                  Não possui nenhum animal cadastrado. {'\n'}
-                </Text>
-              </Circle>
-            )}
-          />
-        )}
       </VStack>
     </VStack>
   )

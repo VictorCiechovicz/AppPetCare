@@ -20,8 +20,6 @@ import { CardDetails } from '../components/CardDetails'
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
 
-import dog from '../../assets/dog.jpg'
-
 type RouteParams = {
   petsId: string
 }
@@ -74,7 +72,7 @@ export function Details() {
           estado,
           descricao,
           status,
-          imagemurl,
+          photo_url,
           created_at,
           closed_at
         } = doc.data()
@@ -88,7 +86,7 @@ export function Details() {
           cidade,
           estado,
           descricao,
-          imagemurl,
+          photo_url,
           status,
           when: dateFormat(created_at),
           closed
@@ -107,7 +105,10 @@ export function Details() {
   }
   return (
     <VStack flex={1} bg="primary.100" alignItems="center">
-      <ImageBackground source={dog} style={{ width: 500, height: 500 }}>
+      <ImageBackground
+        source={{ uri: pets.photo_url }}
+        style={{ width: 500, height: 500 }}
+      >
         <IconButton
           mt={10}
           mr={320}

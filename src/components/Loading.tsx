@@ -10,7 +10,7 @@ export function Loading() {
         source={require('../../assets/LoadingAnimation.json')}
         autoPlay
         loop
-        style={{ width: 300 }}
+        style={{ width:400}}
       />
     </Center>
   )
