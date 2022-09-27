@@ -12,14 +12,7 @@ import { Button } from '../components/Button'
 
 import { Check } from 'phosphor-react-native'
 
-
-
-import {
-  launchCamera,
-  launchImageLibrary,
-  CameraOptions,
-  ImageLibraryOptions
-} from 'react-native-image-picker'
+import * as ImagePicker from 'expo-image-picker'
 
 export function Register() {
   const [isLoading, setIsLoading] = useState(false)
@@ -30,27 +23,51 @@ export function Register() {
   const [imagem, setImagem] = useState('')
   const [cidade, setCidade] = useState('')
   const [estado, setEstado] = useState('')
-  const [imagemurl, setImagemUrl] = useState(' ')
 
-  const navigation = useNavigation();
+  const navigation = useNavigation()
 
+  //função chama que pede a autorização do usuario para acessar biblioteca de fotos do dispositivo e depois puxa a imagem e armazana a uri.
+  async function handlePickerImage() {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
 
-  function headleNewPetRegister() {
+    if (status === 'granted') {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        aspect: [4, 4]
+      })
+      if (!result.cancelled) {
+        setImagem(result.uri)
+      }
+    }
+  }
+
+  async function handleAdd() {
     if (!nome || !descricao || !raca || !idade || !cidade || !estado) {
       return Alert.alert('Registrar', 'Preencha todos os campos!')
     }
     setIsLoading(true)
+
+    const fileName = new Date().getTime()
+    //const salva na storage na pasta de pizzas que foi criada la
+    const reference = storage().ref(`/petsImage/${fileName}.png`)
+
+    await reference.putFile(imagem)
+    //constante que vai la no storage e pega a URL da imagem usando a reference
+    const photo_url = await reference.getDownloadURL()
+
     firestore()
       .collection('pets')
       .add({
         nome,
+        name_insensitive: nome.toLowerCase().trim(),
         raca,
         idade,
         cidade,
         estado,
         status: 'naoadotado',
         descricao,
-        imagemurl,
+        photo_url,
+        photo_path: reference.fullPath,
         created_at: firestore.FieldValue.serverTimestamp()
       })
       .then(() => {
@@ -62,87 +79,6 @@ export function Register() {
         setIsLoading(false)
         return Alert.alert('Cadastro', 'Nao foi possivel cadastrar!')
       })
-  }
-
-  //funcao para abrir as opcao para imagem
-  const handleImagePet = () => {
-    Alert.alert(
-      'Selecione',
-      'Informe de onde voce quer pegar a foto',
-      [
-        {
-          text: 'Galeria',
-          onPress: () => pickImageFromGalery(),
-          style: 'default'
-        },
-        {
-          text: 'Camera',
-          onPress: () => pickImageFromCamera(),
-          style: 'default'
-        }
-      ],
-
-      {
-        cancelable: true,
-        onDismiss: () => Alert.alert('Escolha uma imagem ')
-      }
-    )
-  }
-  //funcao que chama a galeria
-  async function pickImageFromGalery() {
-    const options: ImageLibraryOptions = {
-      mediaType: 'photo'
-    }
-
-    const result = await launchImageLibrary(options)
-
-    if (result.assets) {
-      setImagem(result.assets[0].uri!)
-
-      return
-    }
-  }
-
-  //funcao que chama a camera
-  async function pickImageFromCamera() {
-    const options: CameraOptions = {
-      mediaType: 'photo',
-      saveToPhotos: false,
-      cameraType: 'back',
-      quality: 1
-    }
-    const result = await launchCamera(options)
-
-    if (result.assets) {
-      setImagem(result.assets[0].uri!)
-      return
-    }
-  }
-
-  //funcao para enviar para o firebase a imagem
-  async function handleUpload() {
-    const fileName = new Date().getTime()
-    const MIME = imagem.match(/\.(?:.(?!\.))+$/) //esse MIME pega e repassa o tipo da imagem para salvar no Firebase.
-    const reference = storage().ref(`/images/${fileName}${MIME}`)
-    await reference.putFile(imagem)
-
-  }
-
-async function uploadImagePet(){
-  
-}
-
-
-
-
-
-     
-
-  //funcao que envia todos os arquivos do regitro de animais
-
-  const uploadEveryThingPage = () => {
-    handleUpload()
-    headleNewPetRegister()
   }
 
   return (
@@ -164,7 +100,7 @@ async function uploadImagePet(){
           mb={5}
           mt={10}
         >
-          <TouchableOpacity onPress={handleImagePet}>
+          <TouchableOpacity onPress={handlePickerImage}>
             {!imagem ? (
               <Box
                 alignItems="center"
@@ -273,11 +209,7 @@ async function uploadImagePet(){
         </VStack>
 
         <VStack flex={1} px={6} mt={5} mb={5}>
-          <Button
-            title="Cadastrar"
-            onPress={uploadEveryThingPage}
-            isLoading={isLoading}
-          />
+          <Button title="Cadastrar" onPress={handleAdd} isLoading={isLoading} />
         </VStack>
       </ScrollView>
     </VStack>

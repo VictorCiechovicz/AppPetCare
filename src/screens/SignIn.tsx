@@ -66,7 +66,7 @@ export function SignIn() {
         mb={4}
         placeholder="E-mail"
         InputLeftElement={
-          <Icon as={<Envelope color={colors.gray[300]} />} ml={4} />
+          <Icon as={<Envelope color={colors.gray[300]} />}  />
         }
         onChangeText={setEmail}
       />
