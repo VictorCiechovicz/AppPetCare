@@ -66,7 +66,7 @@ export function SignIn() {
         mb={4}
         placeholder="E-mail"
         InputLeftElement={
-          <Icon as={<Envelope color={colors.gray[300]} />}  />
+          <Icon as={<Envelope color={colors.gray[300]} />} ml={4} />
         }
         onChangeText={setEmail}
       />
@@ -77,7 +77,6 @@ export function SignIn() {
         secureTextEntry
         onChangeText={setPassword}
       />
-     
 
       <Button
         title="Entrar"
@@ -86,12 +85,12 @@ export function SignIn() {
         onPress={handleSignIn}
         isLoading={isLoading}
       />
-       <TouchableOpacity onPress={handleNewUser}>
-     
-     <Text color={colors.gray[300]} fontSize="15">
-       Não possui uma conta? <Text color={colors.yellow[400]}> Registre-se.</Text>
-     </Text>
-   </TouchableOpacity>
+      <TouchableOpacity onPress={handleNewUser}>
+        <Text color={colors.gray[300]} fontSize="15">
+          Não possui uma conta?{' '}
+          <Text color={colors.yellow[400]}> Registre-se.</Text>
+        </Text>
+      </TouchableOpacity>
     </VStack>
   )
 }

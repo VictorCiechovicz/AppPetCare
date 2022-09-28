@@ -1,11 +1,19 @@
 import { useState } from 'react'
-import { Alert, TouchableOpacity } from 'react-native'
+import { Alert, TouchableOpacity, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { VStack, HStack, Image, Box, ScrollView, Select } from 'native-base'
+import {
+  VStack,
+  HStack,
+  Box,
+  ScrollView,
+  Select,
+  Text,
+  useTheme
+} from 'native-base'
 
 import firestore from '@react-native-firebase/firestore'
 import storage from '@react-native-firebase/storage'
-import { utils } from '@react-native-firebase/app'
+
 import { Header } from '../components/Header'
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
@@ -13,6 +21,8 @@ import { Button } from '../components/Button'
 import { Check } from 'phosphor-react-native'
 
 import * as ImagePicker from 'expo-image-picker'
+
+import dog from '../../assets/dog.png'
 
 export function Register() {
   const [isLoading, setIsLoading] = useState(false)
@@ -25,6 +35,7 @@ export function Register() {
   const [estado, setEstado] = useState('')
 
   const navigation = useNavigation()
+  const { colors } = useTheme()
 
   //função chama que pede a autorização do usuario para acessar biblioteca de fotos do dispositivo e depois puxa a imagem e armazana a uri.
   async function handlePickerImage() {
@@ -79,7 +90,6 @@ export function Register() {
         setIsLoading(false)
         return Alert.alert('Cadastro', 'Nao foi possivel cadastrar!')
       })
-      
   }
 
   return (
@@ -104,25 +114,25 @@ export function Register() {
           <TouchableOpacity onPress={handlePickerImage}>
             {!imagem ? (
               <Box
+                px={6}
+                borderRadius={100}
+                borderWidth={1}
                 alignItems="center"
                 justifyContent="center"
                 h="200"
                 w="200"
-                px={6}
-                borderRadius={100}
-                borderWidth={1}
                 borderStyle="dashed"
-                bg="primary.200"
+                borderColor={colors.gray[300]}
               >
-                Escolha uma foto
+                <Text textAlign="center" color={colors.gray[300]}>
+                  Adicione uma foto{``}
+                  do seu animal.
+                </Text>
               </Box>
             ) : (
               <Image
-                h="200"
-                w="200"
-                borderRadius={100}
+                style={{ height: 200, width: 200, borderRadius: 100 }}
                 source={{ uri: imagem }}
-                alt="foto do animal"
               />
             )}
           </TouchableOpacity>
