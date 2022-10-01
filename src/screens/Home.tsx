@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { Alert } from 'react-native'
+import { useState, useEffect, useCallback } from 'react'
+import { Alert, TouchableOpacity } from 'react-native'
 import {
   HStack,
   IconButton,
@@ -8,30 +8,39 @@ import {
   Text,
   Heading,
   FlatList,
-  Circle
+  Circle,
+  Icon
 } from 'native-base'
 
 import { dateFormat } from '../utils/firestoreDateFormat'
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useFocusEffect } from '@react-navigation/native'
 
-import { SignOut, Dog, PawPrint } from 'phosphor-react-native'
+import {
+  SignOut,
+  Dog,
+  PawPrint,
+  MagnifyingGlass,
+  X
+} from 'phosphor-react-native'
 
 import { Loading } from '../components/Loading'
-import { Filter } from '../components/Filter'
-import { Button } from '../components/Button'
+
 import { Pets, PetsProps } from '../components/Pets'
-import Logo from '../../assets/logo_secondary.svg'
+
+import { Input } from '../components/Input'
 
 export function Home() {
   const [isLoading, setIsLoading] = useState(true)
-
   const [pets, setPets] = useState<PetsProps[]>([])
+  const [search, setSearch] = useState('')
 
   const { colors } = useTheme()
 
   const navigation = useNavigation()
+
+
 
   function handleOpenDetails(petsId: string) {
     navigation.navigate('details', { petsId })
@@ -46,68 +55,90 @@ export function Home() {
       })
   }
 
-  useEffect(() => {
-    setIsLoading(true)
+ useEffect(() => {
+   setIsLoading(true)
+//
+   const subscribe = firestore()
+     .collection('pets')
+     .where('status', '==', 'naoadotado')
+     .onSnapshot(snapshot => {
+       const data = snapshot.docs.map(doc => {
+         const {
+           nome,
+           name_insensitive,
+           raca,
+           descricao,
+           idade,
+           cidade,
+           estado,
+           photo_url,
+           status,
+           created_at
+         } = doc.data()
 
-    const subscribe = firestore()
-      .collection('pets')
-      .where('status', '==', 'naoadotado')
-      .onSnapshot(snapshot => {
-        const data = snapshot.docs.map(doc => {
-          const {
-            nome,
-            raca,
-            descricao,
-            idade,
-            cidade,
-            estado,
-            photo_url,
-            status,
-            created_at
-          } = doc.data()
-
-          return {
-            id: doc.id,
-            nome,
-            raca,
-            idade,
-            cidade,
-            estado,
-            descricao,
-            photo_url,
-            status,
-            when: dateFormat(created_at)
-          }
-        })
-        setPets(data)
-        setIsLoading(false)
-      })
-    return subscribe
+      return {
+        id: doc.id,
+        nome,
+        name_insensitive,
+           raca,
+           idade,
+           cidade,
+           estado,
+           descricao,
+           photo_url,
+           status,
+           when: dateFormat(created_at)
+         }
+       })
+       setPets(data)
+       setIsLoading(false)
+     })
+   return subscribe
   }, [])
 
+
+
   return (
-    <VStack flex={1} pb={6} bg="primary.100">
+    <VStack flex={1} pb={6} bg="white">
       <HStack
         w="full"
         justifyContent="space-between"
-        alignItems="center"
-        bg="primary.700"
+        alignItems="flex-end"
+        bg="white"
         pt={10}
         pb={1}
         px={6}
       >
-        <HStack>
-          <PawPrint size={40} color="white" />
-          <Text fontSize="30" fontWeight="bold" color="white">
-            PETCARE
+        <HStack alignItems="flex-end" mt={22}>
+          <PawPrint size={80} color={colors.secondary[700]} />
+          <Text fontSize="32" fontWeight="bold" color="secondary.700">
+            PetCare
           </Text>
         </HStack>
 
         <IconButton
-          icon={<SignOut size={26} color={colors.gray[100]} />}
+          icon={<SignOut size={32} color={colors.secondary[700]} />}
           onPress={handleLogout}
         />
       </HStack>
+
+      <Input
+        onChangeText={setSearch}
+        value={search}
+        alignSelf="center"
+        mx={3}
+        placeholder="pesquisar..."
+        InputLeftElement={
+          <TouchableOpacity >
+            <Icon as={<MagnifyingGlass color={colors.gray[300]} />} ml={4} />
+          </TouchableOpacity>
+        }
+        InputRightElement={
+          <TouchableOpacity >
+            <Icon as={<X color={colors.gray[300]} />} mr={4} />
+          </TouchableOpacity>
+        }
+      />
 
       <VStack flex={1} px={2}>
         <HStack
@@ -122,6 +153,8 @@ export function Home() {
         ) : (
           <FlatList
             data={pets}
+         
+            keyExtractor={item => item.id}
             renderItem={({ item }) => (
               <Pets data={item} onPress={() => handleOpenDetails(item.id)} />
             )}

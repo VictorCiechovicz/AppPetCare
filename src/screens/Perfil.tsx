@@ -1,114 +1,119 @@
-import { Header } from '../components/Header'
-
 import { useState, useEffect } from 'react'
 import { Alert, TouchableOpacity } from 'react-native'
 import {
   HStack,
-  IconButton,
   VStack,
   useTheme,
   Text,
   Box,
-  Heading,
   FlatList,
-  Circle
+  Image
 } from 'native-base'
 
-import { dateFormat } from '../utils/firestoreDateFormat'
-import auth from '@react-native-firebase/auth'
-import firestore from '@react-native-firebase/firestore'
 import { useNavigation } from '@react-navigation/native'
 
-import { SignOut, Dog, PawPrint } from 'phosphor-react-native'
+import { Gear } from 'phosphor-react-native'
+import ProfileImage from '../../assets/profile.png'
+import firestore from '@react-native-firebase/firestore'
 
-import { Loading } from '../components/Loading'
-import { Filter } from '../components/Filter'
-import { Button } from '../components/Button'
-import { Pets, PetsProps } from '../components/Pets'
-import Logo from '../../assets/logo_secondary.svg'
+type UsersDatails = {
+  id: string
+  nome: string
+  cidade: string
+  estado: string
+  photo_url: string
+  photo_path: string
+}
 
 export function Perfil() {
-  const [isLoading, setIsLoading] = useState(true)
-
-  const [pets, setPets] = useState<PetsProps[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [user, setUser] = useState<UsersDatails>([])
 
   const { colors } = useTheme()
 
   const navigation = useNavigation()
 
-  function handleOpenDetails(petsId: string) {
-    navigation.navigate('details', { petsId })
-  }
-
   useEffect(() => {
     setIsLoading(true)
-
     const subscribe = firestore()
-      .collection('pets')
-      .where('status', '==', 'naoadotado')
+      .collection('users')
       .onSnapshot(snapshot => {
         const data = snapshot.docs.map(doc => {
-          const {
-            nome,
-            raca,
-            descricao,
-            idade,
-            cidade,
-            estado,
-            photo_url,
-            status,
-            created_at
-          } = doc.data()
+          const { nome, cidade, estado, photo_url } = doc.data()
 
           return {
             id: doc.id,
             nome,
-            raca,
-            idade,
             cidade,
             estado,
-            descricao,
-            photo_url,
-            status,
-            when: dateFormat(created_at)
+            photo_url
           }
         })
-        setPets(data)
+        setUser(data)
         setIsLoading(false)
       })
     return subscribe
-  }, [])
+  }, [id])
 
   return (
-    <VStack flex={1} pb={6} bg="primary.100">
+    <VStack flex={1} pb={6} bg="white">
       <HStack
         w="full"
         justifyContent="space-between"
         alignItems="center"
-        bg="primary.700"
+        bg="white"
+        pt={10}
+        pb={1}
         px={6}
       >
-        <Header title="perfil" textDecoration="uppercase" />
-      </HStack>
-
-      <HStack flex={1} alignItems="center" justifyContent="center" mb={5}>
-        <TouchableOpacity>
-          <Box
-            alignItems="center"
-            justifyContent="center"
-            h="200"
-            w="200"
-            px={6}
-            borderRadius={100}
-            borderWidth={1}
-            borderStyle="dashed"
-            bg="primary.200"
-          >
-            Escolha uma foto
-          </Box>
+        <HStack alignItems="center" mt={22}>
+          <Text fontSize="32" fontWeight="bold" color="secondary.700">
+            Perfil
+          </Text>
+        </HStack>
+        <TouchableOpacity onPress={() => navigation.navigate('perfilEdit')}>
+          <Gear size={32} color={colors.gray[300]} />
         </TouchableOpacity>
       </HStack>
+      <HStack flex={1} alignItems="center" justifyContent="center" mb={5}>
+        {
 
+          !user.photo_url?(
+
+            <Image
+            source={ProfileImage}
+            alt="image profile"
+            h="200"
+            w="200"
+            borderRadius="100"
+          />
+
+
+          ):(
+
+            <Image
+            source={{uri:user.photo_url}}
+            alt="image profile"
+            h="200"
+            w="200"
+            borderRadius="100"
+          />
+          )
+           
+       
+        }
+       
+      </HStack>
+
+      <VStack alignItems="center">
+        <Text fontSize={24} fontWeight="bold">
+          Nome
+        </Text>
+        <HStack>
+          <Text fontSize={15}>Cidade</Text>
+          <Text fontSize={15}>-Estado</Text>
+        </HStack>
+      </VStack>
       <VStack flex={1} px={2} mt={50}>
         <HStack
           w="full"

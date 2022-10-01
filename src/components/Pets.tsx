@@ -11,15 +11,14 @@ import {
 } from 'native-base'
 import { color } from 'native-base/lib/typescript/theme/styled-system'
 import {
-  ClockAfternoon,
-  Hourglass,
-  CircleWavyCheck,
+
   MapPin
 } from 'phosphor-react-native'
 
 export type PetsProps = {
   id: string
   nome: string
+  name_insensitive:string
   raca: string
   idade: string
   cidade: string
@@ -42,14 +41,15 @@ export function Pets({ data, ...rest }: Props) {
       <HStack flex={1} justifyContent="center" mb={5} alignItems="center">
         <Image
           source={{ uri: data.photo_url }}
-          w={170}
+          w={180}
           h={200}
           alt="animal"
           borderRadius={20}
+          shadow={2}
         />
 
         <HStack
-          w={200}
+          w={190}
           h={150}
           bg="white"
           alignItems="center"
@@ -57,10 +57,13 @@ export function Pets({ data, ...rest }: Props) {
           rounded="sm"
           overflow="hidden"
           borderRightRadius={17}
+          borderColor="secondary.700"
+          shadow={3}
+     
         >
           <VStack flex={1} my={5} ml={5} alignItems="flex-start">
             <Text
-              color="primary.700"
+              color="secondary.700"
               fontWeight="bold"
               fontSize={25}
               textTransform="uppercase"

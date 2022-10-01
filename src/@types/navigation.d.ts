@@ -5,7 +5,10 @@ export declare global{
       new:undefined;
       cadastro:undefined;
       singin:undefined;
+      perfilEdit:{userId:string}
       details:{petsId:string}
     }
   }
 }
+
+

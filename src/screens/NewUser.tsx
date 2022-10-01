@@ -45,19 +45,20 @@ export function NewUser() {
   }
 
   return (
-    <VStack flex={1} alignItems="center" bg="primary.100" px={8} pt={20}>
+    <VStack flex={1} alignItems="center" bg="white" px={8} pt={20}>
       <Heading
-        color={colors.gray[700]}
-        fontSize="30"
-        mt={1}
-        mb={6}
+      alignSelf="flex-start"
+        color={colors.primary[700]}
+        fontSize="32"
+        mt={15}
+        mb={160}
         textTransform="uppercase"
       >
         Cadastro
       </Heading>
 
       <Input
-        mb={3}
+        mb={22}
         placeholder="E-mail"
         InputLeftElement={
           <Icon as={<Envelope color={colors.gray[300]} />} ml={4} />
@@ -65,7 +66,7 @@ export function NewUser() {
         onChangeText={setEmail}
       />
       <Input
-        mb={10}
+        mb={100}
         placeholder="Senha"
         InputLeftElement={<Icon as={<Key color={colors.gray[300]} />} ml={4} />}
         secureTextEntry
@@ -78,7 +79,7 @@ export function NewUser() {
         isLoading={isLoading}
       />
       <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text color={colors.gray[300]} fontSize="15" mt={5}>
+        <Text color="black" fontSize="15" mt={5}>
           Já tenho uma conta!
         </Text>
       </TouchableOpacity>

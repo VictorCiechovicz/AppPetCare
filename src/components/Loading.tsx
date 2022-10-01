@@ -5,7 +5,7 @@ import LottieView from 'lottie-react-native'
 
 export function Loading() {
   return (
-    <Center flex={1} bg="primary.100">
+    <Center flex={1} bg="white">
       <LottieView
         source={require('../../assets/LoadingAnimation.json')}
         autoPlay

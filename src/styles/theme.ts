@@ -3,10 +3,10 @@ import { extendTheme } from 'native-base';
 export const THEME = extendTheme({
   colors: {
     primary: {
-      700: '#996DFF'
+      700: '#0CCBFF'
     },
     secondary: {
-      700: '#FBA94C'
+      700: '#000072'
     },
     green: {
       700: '#00875F',
@@ -31,7 +31,11 @@ export const THEME = extendTheme({
       200: '#fef08a',
       100: '#fef9c3'
     },
-    white: '#FFFFFF'
+    white: '#FFFFFF',
+
+    gradiente:{
+     100: ['#00B4DB', '#0083B0']
+    } 
   },
   fonts: {
     heading: 'Roboto_700Bold',
@@ -45,5 +49,6 @@ export const THEME = extendTheme({
   },
   sizes: {
     14: 56
-  }
+  },
+
 });

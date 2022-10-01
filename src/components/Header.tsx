@@ -4,12 +4,14 @@ import { useNavigation } from '@react-navigation/native'
 
 type Props = StyledProps & {
   title: string
+
 }
 
 export function Header({ title, ...rest }) {
   const { colors } = useTheme()
   const navigation = useNavigation()
 
+  //funçao para volta a tela anterior
   function handleGoBack() {
     navigation.goBack()
   }
@@ -19,27 +21,23 @@ export function Header({ title, ...rest }) {
       w="full"
       justifyContent="space-between"
       alignItems="center"
-      bg="primary.700"
-     
-      pt={5}
-      mt={5}
-      mb={3}
+      bg="white"
+   
+      mt={20}
+      mb={5}
       {...rest}
     >
-      <IconButton
-        icon={<CaretLeft color={colors.gray[200]} size={30} />}
-        onPress={handleGoBack}
-      />
+     
 
       <Heading
-        color="white"
-        textAlign="center"
-        textTransform="uppercase"
-        fontSize="lg"
+        color="secondary.700"
+       alignSelf="flex-start"
+        fontSize="32"
         flex={1}
-        ml={-6}
+        ml={3}
       >
         {title}
+    
       </Heading>
     </HStack>
   )

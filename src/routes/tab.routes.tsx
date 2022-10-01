@@ -1,10 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { House, Dog, User } from 'phosphor-react-native'
+import { House, PawPrint, User } from 'phosphor-react-native'
 import { Perfil } from '../screens/Perfil'
+
 
 import { DetailsRoute } from './details.routes'
 import { Register } from '../screens/Register'
-
+import {PerfilRouts} from './stack3.routes'
 const { Navigator, Screen } = createBottomTabNavigator()
 
 export function TabRouts() {
@@ -12,9 +13,10 @@ export function TabRouts() {
     <Navigator
       screenOptions={{
         headerShown: false,
+        tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: '#996DFF',
-          height: 60
+          backgroundColor: '#0CCBFF',
+          height: 65
         },
         tabBarLabelStyle: {
           marginBottom: 5,
@@ -38,12 +40,12 @@ export function TabRouts() {
         name="new"
         component={Register}
         options={{
-          tabBarIcon: ({ color }) => <Dog size={30} color={color} />
+          tabBarIcon: ({ color }) => <PawPrint size={60} color={color} />
         }}
       />
       <Screen
         name="user"
-        component={Perfil}
+        component={PerfilRouts}
         options={{
           tabBarIcon: ({ color }) => <User size={30} color={color} />
         }}

@@ -1,39 +1,60 @@
-import { useState } from 'react'
-import { Alert, TouchableOpacity, Image } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { useState, useEffect } from 'react'
+import { Alert, ScrollView, TouchableOpacity } from 'react-native'
 import {
-  VStack,
   HStack,
-  Box,
-  ScrollView,
-  Select,
+  VStack,
+  useTheme,
   Text,
-  useTheme
+  Box,
+  FlatList,
+  Image,
+  Select
 } from 'native-base'
+
+import { Input } from '../components/Input'
+
+
+import { useNavigation, useRoute } from '@react-navigation/native'
 
 import firestore from '@react-native-firebase/firestore'
 import storage from '@react-native-firebase/storage'
-
-import { Header } from '../components/Header'
-import { Input } from '../components/Input'
-import { Button } from '../components/Button'
-
-import { Check } from 'phosphor-react-native'
+import auth from '@react-native-firebase/auth'
 
 import * as ImagePicker from 'expo-image-picker'
 
-export function Register() {
+import { Check, X } from 'phosphor-react-native'
+
+import { Button } from '../components/Button'
+
+import { UsersFirestoreDTO } from '../DTOs/UsersDTO'
+
+type RouteParams = {
+  userId: string
+}
+type UsersDatails = {
+  id: string
+  nome: string
+  cidade: string
+  estado: string
+  photo_url: string
+  photo_path: string
+}
+
+export function PerfilEdit() {
   const [isLoading, setIsLoading] = useState(false)
   const [nome, setNome] = useState('')
-  const [descricao, setDescricao] = useState('')
-  const [raca, setRaca] = useState('')
-  const [idade, setIdade] = useState('')
   const [imagem, setImagem] = useState('')
   const [cidade, setCidade] = useState('')
   const [estado, setEstado] = useState('')
+  const [userUId, setUserUId] = useState('')
+
+  const [users, setUsers] = useState<UsersDatails>({} as UsersDatails)
+
+  const { colors } = useTheme()
 
   const navigation = useNavigation()
-  const { colors } = useTheme()
+  const route = useRoute()
+  const { userId } = route.params as RouteParams
 
   //função chama que pede a autorização do usuario para acessar biblioteca de fotos do dispositivo e depois puxa a imagem e armazana a uri.
   async function handlePickerImage() {
@@ -49,83 +70,108 @@ export function Register() {
       }
     }
   }
-
+  //função para pegar o id do usuário
+ // const auth = auth().getAuth()
+ // const user = auth.currentUser
+ // if (user !== null) {
+ //   const uid = user.uid
+ //   setUserUId(uid)
+ // }
+//
   async function handleAdd() {
-    if (!nome || !descricao || !raca || !idade || !cidade || !estado) {
+    if (!nome || !cidade || !estado) {
       return Alert.alert('Registrar', 'Preencha todos os campos!')
     }
     setIsLoading(true)
 
     const fileName = new Date().getTime()
     //const salva na storage na pasta de pizzas que foi criada la
-    const reference = storage().ref(`/petsImage/${fileName}.png`)
+    const reference = storage().ref(`/usersImage/${fileName}.png`)
 
     await reference.putFile(imagem)
     //constante que vai la no storage e pega a URL da imagem usando a reference
     const photo_url = await reference.getDownloadURL()
 
     firestore()
-      .collection('pets')
+      .collection('users')
       .add({
         nome,
-        name_insensitive: nome.toLowerCase().trim(),
-        raca,
-        idade,
         cidade,
         estado,
-        status: 'naoadotado',
-        descricao,
         photo_url,
         photo_path: reference.fullPath,
-        created_at: firestore.FieldValue.serverTimestamp()
+        userUId
       })
       .then(() => {
-        Alert.alert('Cadastro', 'Animal cadastrado com sucesso!')
+        Alert.alert('Cadastro', 'Salvo com sucesso!')
         navigation.goBack()
       })
       .catch(error => {
         console.log(error)
         setIsLoading(false)
-        return Alert.alert('Cadastro', 'Nao foi possivel cadastrar!')
+        return Alert.alert(
+          'Cadastro',
+          'Nao foi possivel alterar as informações!'
+        )
       })
   }
+  useEffect(() => {
+    firestore()
+      .collection<UsersFirestoreDTO>('users')
+      .doc(userId)
+      .get()
+      .then(doc => {
+        const { nome, cidade, estado, photo_url } = doc.data()
+
+        setUsers({
+          id: doc.id,
+          nome,
+          cidade,
+          estado,
+          photo_url
+        })
+
+        setIsLoading(false)
+      })
+  }, [])
 
   return (
-    <VStack flex={1} bg="white">
+    <VStack flex={1} pb={6} bg="white">
       <HStack
         w="full"
         justifyContent="space-between"
         alignItems="center"
         bg="white"
-        px={3}
+        pt={10}
+        pb={1}
+        px={6}
+        mb={10}
       >
-        <Header title="Cadastro" />
+        <HStack alignItems="center" mt={22}>
+          <Text fontSize="32" fontWeight="bold" color="secondary.700">
+            Editar Perfil
+          </Text>
+        </HStack>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <X size={25} color={colors.gray[300]} />
+        </TouchableOpacity>
       </HStack>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <HStack
-          flex={1}
-          alignItems="center"
-          justifyContent="center"
-          mb={5}
-          mt={5}
-        >
+      <ScrollView>
+        <HStack flex={1} alignItems="center" justifyContent="center" mb={5}>
           <TouchableOpacity onPress={handlePickerImage}>
             {!imagem ? (
               <Box
-                px={6}
-                borderRadius={100}
-                borderWidth={1}
                 alignItems="center"
                 justifyContent="center"
                 h="200"
                 w="200"
+                px={6}
+                borderRadius={100}
+                borderWidth={1}
                 borderStyle="dashed"
-                borderColor={colors.gray[300]}
+                bg="white"
               >
-                <Text textAlign="center" color={colors.gray[300]}>
-                  Adicione uma foto {``}
-                  do seu animal.
-                </Text>
+                Adicione uma foto sua
               </Box>
             ) : (
               <Image
@@ -137,32 +183,9 @@ export function Register() {
         </HStack>
 
         <VStack px={5} mt={5} mb={5}>
-          <Input placeholder="Nome do animal" onChangeText={setNome} />
+          <Input placeholder="Nome" onChangeText={setNome} value={nome} />
 
-          <Box maxW="300">
-            <Select
-              selectedValue={raca}
-              w={354}
-              h={14}
-              borderWidth={1}
-              borderColor="#000"
-              borderRadius={10}
-              placeholder="Escolha a Raca"
-              size="md"
-              placeholderTextColor="gray.300"
-              _selectedItem={{
-                bg: 'gray.300',
-                endIcon: <Check size={10} />
-              }}
-              mt={5}
-              onValueChange={itemValue => setRaca(itemValue)}
-            >
-              <Select.Item label="Cachorro" value="Cachorro" />
-              <Select.Item label="Gato" value="Gato" />
-            </Select>
-          </Box>
-          <Input placeholder="Idade" mt={5} onChangeText={setIdade} />
-          <Input placeholder="Cidade" mt={5} onChangeText={setCidade} />
+          <Input placeholder="Cidade" mt={5} onChangeText={setCidade} value={cidade} />
           <Box maxW="300">
             <Select
               selectedValue={estado}
@@ -210,19 +233,12 @@ export function Register() {
               <Select.Item label="Tocantins" value="TO" />
             </Select>
           </Box>
-
-          <Input
-            placeholder="Descricao do animal"
-            mt={5}
-            h={40}
-            multiline
-            textAlignVertical="top"
-            onChangeText={setDescricao}
+          <Button
+            mt={10}
+            title="Salvar"
+            onPress={handleAdd}
+            isLoading={isLoading}
           />
-        </VStack>
-
-        <VStack flex={1} px={6} mt={10} mb={5}>
-          <Button title="Cadastrar" onPress={handleAdd} isLoading={isLoading} />
         </VStack>
       </ScrollView>
     </VStack>

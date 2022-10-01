@@ -2,12 +2,13 @@ import { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Envelope, Key } from 'phosphor-react-native'
 import { Alert, TouchableOpacity } from 'react-native'
+import { LinearGradient } from 'expo-linear-gradient'
 
-import { VStack, Heading, Icon, useTheme, Text, Link } from 'native-base'
+import { VStack, Heading, Icon, useTheme, Text, Image } from 'native-base'
 
 import auth from '@react-native-firebase/auth'
 
-import Logo from '../../assets/logo_primary.svg'
+import Logo from '../../assets/signinImage.png'
 
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
@@ -52,18 +53,39 @@ export function SignIn() {
         return Alert.alert('Entrar', 'Não foi possível acessar')
       })
   }
+
+  async function forgotPassword() {
+    if (!email) {
+      return Alert.alert('Redefinir Senha', 'Informe o e-mail.');
+    }
+
+    auth()
+      .sendPasswordResetEmail(email)
+      .then(() =>
+        Alert.alert(
+          'Redefinir Senha',
+          'Enviamos um link no seu E-mail para você redefinir sua senha.',
+        ),
+      )
+      .catch(() =>
+        Alert.alert(
+          'Redefinir Senha',
+          'Não foi possível enviar o e-mail para redefinição da senha.',
+        ),
+      );
+  }
+
+ 
+
   return (
-    <VStack flex={1} alignItems="center" bg="primary.100" px={8} pt={24}>
-      <Logo width={140} height={140} />
-      <Heading color={colors.gray[700]} fontSize="30" mt={5} mb={1}>
-        PETCARE
-      </Heading>
-      <Heading color={colors.gray[700]} fontSize="20" mt={5} mb={6}>
-        Acesse sua conta
+    <VStack flex={1} alignItems="center" bg={colors.white[100]} px={8} pt={24}>
+      <Image source={Logo} alt="logo petcare" w="406" h="258"  />
+      <Heading color={colors.secondary[700]} fontSize="64" mt={-12} mb={18}>
+        PetCare
       </Heading>
 
       <Input
-        mb={4}
+        mb={22}
         placeholder="E-mail"
         InputLeftElement={
           <Icon as={<Envelope color={colors.gray[300]} />} ml={4} />
@@ -71,26 +93,32 @@ export function SignIn() {
         onChangeText={setEmail}
       />
       <Input
-        mb={10}
+        mb={18}
         placeholder="Senha"
         InputLeftElement={<Icon as={<Key color={colors.gray[300]} />} ml={4} />}
         secureTextEntry
         onChangeText={setPassword}
       />
-
+      <TouchableOpacity onPress={forgotPassword} style={{ marginBottom: 26,alignSelf:'flex-end' }}>
+        <Text color="black" fontSize="16">
+          Esqueceu a senha?
+        </Text>
+      </TouchableOpacity>
       <Button
-        title="Entrar"
+        title="LogIn"
         w="full"
-        mb={5}
+        mb={27}
         onPress={handleSignIn}
         isLoading={isLoading}
       />
-      <TouchableOpacity onPress={handleNewUser}>
-        <Text color={colors.gray[300]} fontSize="15">
-          Não possui uma conta?{' '}
-          <Text color={colors.yellow[400]}> Registre-se.</Text>
-        </Text>
-      </TouchableOpacity>
+      <VStack alignItems="flex-end">
+        <TouchableOpacity onPress={handleNewUser} >
+          <Text color="black" fontSize="14">
+            Não possui uma conta?{' '}
+            <Text color={colors.primary[700]}> Registre-se.</Text>
+          </Text>
+        </TouchableOpacity>
+      </VStack>
     </VStack>
   )
 }
