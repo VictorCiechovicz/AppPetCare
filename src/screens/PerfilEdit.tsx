@@ -13,7 +13,6 @@ import {
 
 import { Input } from '../components/Input'
 
-
 import { useNavigation, useRoute } from '@react-navigation/native'
 
 import firestore from '@react-native-firebase/firestore'
@@ -26,20 +25,6 @@ import { Check, X } from 'phosphor-react-native'
 
 import { Button } from '../components/Button'
 
-import { UsersFirestoreDTO } from '../DTOs/UsersDTO'
-
-type RouteParams = {
-  userId: string
-}
-type UsersDatails = {
-  id: string
-  nome: string
-  cidade: string
-  estado: string
-  photo_url: string
-  photo_path: string
-}
-
 export function PerfilEdit() {
   const [isLoading, setIsLoading] = useState(false)
   const [nome, setNome] = useState('')
@@ -48,13 +33,17 @@ export function PerfilEdit() {
   const [estado, setEstado] = useState('')
   const [userUId, setUserUId] = useState('')
 
-  const [users, setUsers] = useState<UsersDatails>({} as UsersDatails)
-
   const { colors } = useTheme()
 
   const navigation = useNavigation()
-  const route = useRoute()
-  const { userId } = route.params as RouteParams
+
+  //pegar o uid do usuario logado
+  useEffect(() => {
+    const user = auth().currentUser
+    user.providerData.forEach(userInfo => {
+      setUserUId(userInfo.uid)
+    })
+  }, [])
 
   //função chama que pede a autorização do usuario para acessar biblioteca de fotos do dispositivo e depois puxa a imagem e armazana a uri.
   async function handlePickerImage() {
@@ -70,14 +59,7 @@ export function PerfilEdit() {
       }
     }
   }
-  //função para pegar o id do usuário
- // const auth = auth().getAuth()
- // const user = auth.currentUser
- // if (user !== null) {
- //   const uid = user.uid
- //   setUserUId(uid)
- // }
-//
+
   async function handleAdd() {
     if (!nome || !cidade || !estado) {
       return Alert.alert('Registrar', 'Preencha todos os campos!')
@@ -115,25 +97,6 @@ export function PerfilEdit() {
         )
       })
   }
-  useEffect(() => {
-    firestore()
-      .collection<UsersFirestoreDTO>('users')
-      .doc(userId)
-      .get()
-      .then(doc => {
-        const { nome, cidade, estado, photo_url } = doc.data()
-
-        setUsers({
-          id: doc.id,
-          nome,
-          cidade,
-          estado,
-          photo_url
-        })
-
-        setIsLoading(false)
-      })
-  }, [])
 
   return (
     <VStack flex={1} pb={6} bg="white">
@@ -177,15 +140,25 @@ export function PerfilEdit() {
               <Image
                 style={{ height: 200, width: 200, borderRadius: 100 }}
                 source={{ uri: imagem }}
+                alt="perfil foto"
               />
             )}
           </TouchableOpacity>
         </HStack>
 
         <VStack px={5} mt={5} mb={5}>
-          <Input placeholder="Nome" onChangeText={setNome} value={nome} />
+          <Input
+            placeholder="Nome completo"
+            onChangeText={setNome}
+            value={nome}
+          />
 
-          <Input placeholder="Cidade" mt={5} onChangeText={setCidade} value={cidade} />
+          <Input
+            placeholder="Cidade"
+            mt={5}
+            onChangeText={setCidade}
+            value={cidade}
+          />
           <Box maxW="300">
             <Select
               selectedValue={estado}

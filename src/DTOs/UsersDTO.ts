@@ -3,5 +3,6 @@ export type UsersFirestoreDTO={
   cidade:string;
   estado:string;
   photo_url:string;
+  photo_path:string;
  
 }

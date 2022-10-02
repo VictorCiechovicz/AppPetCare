@@ -34,6 +34,7 @@ type PetsDatails = PetsProps & {
 }
 
 type UserDatails = {
+  id:string
   nome: string
   photo_url: string
 }

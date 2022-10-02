@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import { Alert, TouchableOpacity, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import {
@@ -13,6 +13,7 @@ import {
 
 import firestore from '@react-native-firebase/firestore'
 import storage from '@react-native-firebase/storage'
+import auth from '@react-native-firebase/auth'
 
 import { Header } from '../components/Header'
 import { Input } from '../components/Input'
@@ -31,10 +32,18 @@ export function Register() {
   const [imagem, setImagem] = useState('')
   const [cidade, setCidade] = useState('')
   const [estado, setEstado] = useState('')
+  const [userUId, setUserUId] = useState('')
 
   const navigation = useNavigation()
   const { colors } = useTheme()
 
+ //pegar o uid do usuario logado
+ useEffect(() => {
+  const user = auth().currentUser
+  user.providerData.forEach(userInfo => {
+    setUserUId(userInfo.uid)
+  })
+}, [])
   //função chama que pede a autorização do usuario para acessar biblioteca de fotos do dispositivo e depois puxa a imagem e armazana a uri.
   async function handlePickerImage() {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
@@ -77,7 +86,8 @@ export function Register() {
         descricao,
         photo_url,
         photo_path: reference.fullPath,
-        created_at: firestore.FieldValue.serverTimestamp()
+        created_at: firestore.FieldValue.serverTimestamp(),
+        userUId
       })
       .then(() => {
         Alert.alert('Cadastro', 'Animal cadastrado com sucesso!')

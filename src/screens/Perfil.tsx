@@ -1,59 +1,68 @@
 import { useState, useEffect } from 'react'
 import { Alert, TouchableOpacity } from 'react-native'
-import {
-  HStack,
-  VStack,
-  useTheme,
-  Text,
-  Box,
-  FlatList,
-  Image
-} from 'native-base'
-
-import { useNavigation } from '@react-navigation/native'
+import { HStack, VStack, useTheme, Text, Image } from 'native-base'
+import { useNavigation,useRoute } from '@react-navigation/native'
 
 import { Gear } from 'phosphor-react-native'
 import ProfileImage from '../../assets/profile.png'
-import firestore from '@react-native-firebase/firestore'
 
-type UsersDatails = {
-  id: string
-  nome: string
-  cidade: string
-  estado: string
-  photo_url: string
-  photo_path: string
+import firestore from '@react-native-firebase/firestore'
+import auth from '@react-native-firebase/auth'
+
+import { UsersFirestoreDTO } from '../DTOs/UsersDTO'
+
+type RouteParams = {
+  userId: string
 }
 
+type userDatails={
+  id:string
+  nome:string
+  cidade:string
+  estado:string
+  photo_url:string
+
+}
+
+
+
 export function Perfil() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [user, setUser] = useState<UsersDatails>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [user, setUser] = useState<userDatails>({} as userDatails)
+  const [userUId, setUserUId] = useState('')
 
   const { colors } = useTheme()
-
   const navigation = useNavigation()
+  const route = useRoute()
+  
+  const { userId } = route.params as RouteParams
 
   useEffect(() => {
-    setIsLoading(true)
-    const subscribe = firestore()
-      .collection('users')
-      .onSnapshot(snapshot => {
-        const data = snapshot.docs.map(doc => {
-          const { nome, cidade, estado, photo_url } = doc.data()
+    const user = auth().currentUser
+    user.providerData.forEach(userInfo => {
+      setUserUId(userInfo.uid)
+    })
+  }, [])
 
-          return {
-            id: doc.id,
-            nome,
-            cidade,
-            estado,
-            photo_url
-          }
+  useEffect(() => {
+    firestore()
+      .collection<UsersFirestoreDTO>('user')
+      .doc(userId)
+      .get()
+      .then(doc => {
+        const { nome, cidade, estado, photo_url } = doc.data()
+
+        setUser({
+          id: doc.id,
+          nome,
+          cidade,
+          estado,
+          photo_url
         })
-        setUser(data)
-        setIsLoading(false)
       })
-    return subscribe
-  }, [id])
+  }, [])
+
+
 
   return (
     <VStack flex={1} pb={6} bg="white">
@@ -76,38 +85,18 @@ export function Perfil() {
         </TouchableOpacity>
       </HStack>
       <HStack flex={1} alignItems="center" justifyContent="center" mb={5}>
-        {
-
-          !user.photo_url?(
-
-            <Image
-            source={ProfileImage}
-            alt="image profile"
-            h="200"
-            w="200"
-            borderRadius="100"
-          />
-
-
-          ):(
-
-            <Image
-            source={{uri:user.photo_url}}
-            alt="image profile"
-            h="200"
-            w="200"
-            borderRadius="100"
-          />
-          )
-           
-       
-        }
-       
+        <Image
+          source={ProfileImage}
+          alt="image profile"
+          h="200"
+          w="200"
+          borderRadius="100"
+        />
       </HStack>
 
       <VStack alignItems="center">
         <Text fontSize={24} fontWeight="bold">
-          Nome
+        {user.nome}
         </Text>
         <HStack>
           <Text fontSize={15}>Cidade</Text>
@@ -115,12 +104,23 @@ export function Perfil() {
         </HStack>
       </VStack>
       <VStack flex={1} px={2} mt={50}>
-        <HStack
-          w="full"
-          mb={4}
-          justifyContent="space-between"
-          alignItems="center"
-        ></HStack>
+        <VStack
+          alignItems="flex-start"
+          alignSelf="flex-start"
+          ml={6}
+          mr={5}
+          mb={5}
+        >
+          <Text
+            color="secondary.700"
+            fontWeight="bold"
+            fontSize={20}
+            textTransform="capitalize"
+          >
+            Meus Animais
+          </Text>
+          <Text>FlatList aqui</Text>
+        </VStack>
       </VStack>
     </VStack>
   )
