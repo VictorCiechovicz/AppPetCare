@@ -14,16 +14,35 @@ import {
 import { Input } from '../components/Input'
 
 import { useNavigation, useRoute } from '@react-navigation/native'
+import { UsersFirestoreDTO } from '../DTOs/UsersDTO'
 
 import firestore from '@react-native-firebase/firestore'
 import storage from '@react-native-firebase/storage'
 import auth from '@react-native-firebase/auth'
 
 import * as ImagePicker from 'expo-image-picker'
-
 import { Check, X } from 'phosphor-react-native'
-
 import { Button } from '../components/Button'
+
+
+
+
+type RouteParams = {
+  petsId: string
+  userId: string
+}
+
+
+type UserDatails = {
+  id:string
+  nome: string
+  photo_url: string
+}
+
+
+
+
+
 
 export function PerfilEdit() {
   const [isLoading, setIsLoading] = useState(false)
@@ -33,10 +52,13 @@ export function PerfilEdit() {
   const [estado, setEstado] = useState('')
   const [userUId, setUserUId] = useState('')
 
+  const [user, setUser] = useState<UserDatails>({} as UserDatails)
+
   const { colors } = useTheme()
-
   const navigation = useNavigation()
-
+  
+  const route = useRoute()
+  const { userId } = route.params as RouteParams
   //pegar o uid do usuario logado
   useEffect(() => {
     const user = auth().currentUser
@@ -97,6 +119,37 @@ export function PerfilEdit() {
         )
       })
   }
+
+
+
+  function handleUpdate() {
+    firestore()
+      .collection<UsersFirestoreDTO>('users')
+      .doc(userId)
+      .update({
+        nome,
+        cidade,
+        estado,
+        photo_url,
+        photo_path: reference.fullPath,
+        userUId
+      })
+      .then(() => {
+        Alert.alert('Usuario', 'Perfil Atualizado.')
+        navigation.goBack()
+      })
+      .catch(error => {
+        console.log(error)
+        Alert.alert('Solicitacao', 'Nao foi possivel atualizar perfil.')
+      })
+  }
+
+
+
+
+
+
+
 
   return (
     <VStack flex={1} pb={6} bg="white">
