@@ -3,10 +3,10 @@ import { extendTheme } from 'native-base';
 export const THEME = extendTheme({
   colors: {
     primary: {
-      700: '#0CCBFF'
+      700: '#0096FF'
     },
     secondary: {
-      700: '#000072'
+      700: '#0096FF'
     },
     green: {
       700: '#00875F',

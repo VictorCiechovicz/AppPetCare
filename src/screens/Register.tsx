@@ -101,7 +101,7 @@ export function Register() {
   }
 
   return (
-    <VStack flex={1} bg="white">
+    <VStack flex={1} bg="#ffffff6f">
       <HStack
         w="full"
         justifyContent="space-between"
@@ -131,6 +131,7 @@ export function Register() {
                 w="200"
                 borderStyle="dashed"
                 borderColor={colors.gray[300]}
+                bg="white"
               >
                 <Text textAlign="center" color={colors.gray[300]}>
                   Adicione uma foto {``}
@@ -147,15 +148,17 @@ export function Register() {
         </HStack>
 
         <VStack px={5} mt={5} mb={5}>
-          <Input placeholder="Nome do animal" onChangeText={setNome} />
+          <Input placeholder="Nome do animal" onChangeText={setNome}  borderColor={colors.gray[300]} />
 
-          <Box maxW="300">
+          <Box maxW="300" >
             <Select
+             borderColor={colors.gray[300]}
+            bg="#ffff"
               selectedValue={raca}
               w={354}
               h={14}
               borderWidth={1}
-              borderColor="#000"
+             
               borderRadius={10}
               placeholder="Escolha a Raca"
               size="md"
@@ -171,15 +174,16 @@ export function Register() {
               <Select.Item label="Gato" value="Gato" />
             </Select>
           </Box>
-          <Input placeholder="Idade" mt={5} onChangeText={setIdade} />
-          <Input placeholder="Cidade" mt={5} onChangeText={setCidade} />
+          <Input placeholder="Idade" mt={5} onChangeText={setIdade}  borderColor={colors.gray[300]} />
+          <Input placeholder="Cidade" mt={5} onChangeText={setCidade}  borderColor={colors.gray[300]} />
           <Box maxW="300">
             <Select
+                  bg="#ffff"
               selectedValue={estado}
               w={354}
               h={14}
               borderWidth={1}
-              borderColor="#000"
+              borderColor={colors.gray[300]}
               borderRadius={10}
               placeholder="Estado"
               size="md"
@@ -222,6 +226,7 @@ export function Register() {
           </Box>
 
           <Input
+           borderColor={colors.gray[300]}
             placeholder="Descricao do animal"
             mt={5}
             h={40}

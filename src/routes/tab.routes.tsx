@@ -15,7 +15,7 @@ export function TabRouts() {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: '#0CCBFF',
+          backgroundColor: '#ffff',
           height: 65
         },
         tabBarLabelStyle: {
@@ -23,8 +23,8 @@ export function TabRouts() {
           fontSize: 10,
           textTransform: 'uppercase'
         },
-        tabBarActiveTintColor: '#fff',
-        tabBarInactiveTintColor: '#7C7C8A',
+        tabBarActiveTintColor: '#0096FF',
+        tabBarInactiveTintColor: '#929294',
         tabBarHideOnKeyboard: true,
         unmountOnBlur: true
       }}

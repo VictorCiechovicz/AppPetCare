@@ -99,7 +99,7 @@ export function Home() {
 
 
   return (
-    <VStack flex={1} pb={6} bg="white">
+    <VStack flex={1} pb={6} bg="#ffffff6f">
       <HStack
         w="full"
         justifyContent="space-between"
@@ -123,6 +123,7 @@ export function Home() {
       </HStack>
 
       <Input
+      borderColor={colors.gray[300]}
         onChangeText={setSearch}
         value={search}
         alignSelf="center"

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Alert, TouchableOpacity } from 'react-native'
 import { HStack, VStack, useTheme, Text, Image } from 'native-base'
-import { useNavigation,useRoute } from '@react-navigation/native'
+import { useNavigation, useIsFocused } from '@react-navigation/native'
 
 import { Gear } from 'phosphor-react-native'
 import ProfileImage from '../../assets/profile.png'
@@ -16,41 +16,36 @@ type RouteParams = {
   userId: string
 }
 
-type userDatails={
-  id:string
-  nome:string
-  cidade:string
-  estado:string
-  photo_url:string
-
+type userDatails = {
+  id: string
+  nome: string
+  photo_url: string
 }
 
-
-
 export function Perfil() {
-  //const [isLoading, setIsLoading] = useState(true)
-  //const [user, setUser] = useState<userDatails>({} as userDatails)
+  const [isLoading, setIsLoading] = useState(true)
+  const [nome, setNome] = useState<string>('')
+  const [imagem, setImagem] = useState('')
   const [userUId, setUserUId] = useState('')
 
   const { colors } = useTheme()
   const navigation = useNavigation()
-  //const route = useRoute()
-  
-  //const { userId } = route.params as RouteParams
+  const estaNaTela = useIsFocused()
 
- useEffect(() => {
-   const user = auth().currentUser
-   user.providerData.forEach(userInfo => {
-     setUserUId(userInfo.uid)
-     console.log(userInfo)
-   })
- }, [])
+  useEffect(() => {
+    const user = auth().currentUser
+    user.providerData.forEach(userInfo => {
+      setNome(userInfo.displayName)
+      setImagem(userInfo.photoURL)
+    })
+    setIsLoading(false)
+  }, [estaNaTela])
 
-  
 
- // if (isLoading) {
- //   return <Loading />
- // }
+
+  if (isLoading) {
+    return <Loading />
+  }
 
   return (
     <VStack flex={1} pb={6} bg="white">
@@ -74,7 +69,7 @@ export function Perfil() {
       </HStack>
       <HStack flex={1} alignItems="center" justifyContent="center" mb={5}>
         <Image
-          source={ProfileImage}
+          source={{uri: imagem} }
           alt="image profile"
           h="200"
           w="200"
@@ -83,13 +78,10 @@ export function Perfil() {
       </HStack>
 
       <VStack alignItems="center">
-        <Text fontSize={24} fontWeight="bold">
-        nome
+        <Text fontSize={24} fontWeight="bold" textTransform="capitalize">
+          {nome}
         </Text>
-        <HStack>
-          <Text fontSize={15}>Cidade</Text>
-          <Text fontSize={15}>-Estado</Text>
-        </HStack>
+     
       </VStack>
       <VStack flex={1} px={2} mt={50}>
         <VStack
