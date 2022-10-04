@@ -120,7 +120,7 @@ export function PerfilEdit() {
       })
   }
 
-
+//ideia e pegar e colocar essa fucao abaixo dentro da funcao de add e criar uma condicao baseado em alguma paramentro dentor da screen
 
   function handleUpdate() {
     firestore()
