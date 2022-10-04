@@ -111,7 +111,7 @@ export function Details() {
   useEffect(() => {
     firestore()
       .collection<UsersFirestoreDTO>('users')
-      .doc(userId)
+      .doc()
       .get()
       .then(doc => {
         const { nome, photo_url } = doc.data()

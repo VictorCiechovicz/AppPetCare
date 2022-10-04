@@ -10,15 +10,12 @@ import {
   Image
 } from 'native-base'
 import { color } from 'native-base/lib/typescript/theme/styled-system'
-import {
-
-  MapPin
-} from 'phosphor-react-native'
+import { MapPin } from 'phosphor-react-native'
 
 export type PetsProps = {
   id: string
   nome: string
-  name_insensitive:string
+  name_insensitive: string
   raca: string
   idade: string
   cidade: string
@@ -34,8 +31,7 @@ type Props = IPressableProps & {
 
 export function Pets({ data, ...rest }: Props) {
   const { colors } = useTheme()
-  const statusColor =
-    data.status === 'naoadotado' ? colors.secondary[700] : colors.green[300]
+
   return (
     <Pressable {...rest}>
       <HStack flex={1} justifyContent="center" mb={5} alignItems="center">
@@ -59,7 +55,6 @@ export function Pets({ data, ...rest }: Props) {
           borderRightRadius={17}
           borderColor="secondary.700"
           shadow={3}
-     
         >
           <VStack flex={1} my={5} ml={5} alignItems="flex-start">
             <Text

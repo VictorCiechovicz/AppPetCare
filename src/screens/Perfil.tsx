@@ -10,6 +10,7 @@ import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 
 import { UsersFirestoreDTO } from '../DTOs/UsersDTO'
+import { Loading } from '../components/Loading'
 
 type RouteParams = {
   userId: string
@@ -27,42 +28,29 @@ type userDatails={
 
 
 export function Perfil() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [user, setUser] = useState<userDatails>({} as userDatails)
+  //const [isLoading, setIsLoading] = useState(true)
+  //const [user, setUser] = useState<userDatails>({} as userDatails)
   const [userUId, setUserUId] = useState('')
 
   const { colors } = useTheme()
   const navigation = useNavigation()
-  const route = useRoute()
+  //const route = useRoute()
   
-  const { userId } = route.params as RouteParams
+  //const { userId } = route.params as RouteParams
 
-  useEffect(() => {
-    const user = auth().currentUser
-    user.providerData.forEach(userInfo => {
-      setUserUId(userInfo.uid)
-    })
-  }, [])
+ useEffect(() => {
+   const user = auth().currentUser
+   user.providerData.forEach(userInfo => {
+     setUserUId(userInfo.uid)
+     console.log(userInfo)
+   })
+ }, [])
 
-  useEffect(() => {
-    firestore()
-      .collection<UsersFirestoreDTO>('user')
-      .doc(userId)
-      .get()
-      .then(doc => {
-        const { nome, cidade, estado, photo_url } = doc.data()
+  
 
-        setUser({
-          id: doc.id,
-          nome,
-          cidade,
-          estado,
-          photo_url
-        })
-      })
-  }, [])
-
-
+ // if (isLoading) {
+ //   return <Loading />
+ // }
 
   return (
     <VStack flex={1} pb={6} bg="white">
@@ -96,7 +84,7 @@ export function Perfil() {
 
       <VStack alignItems="center">
         <Text fontSize={24} fontWeight="bold">
-        {user.nome}
+        nome
         </Text>
         <HStack>
           <Text fontSize={15}>Cidade</Text>
