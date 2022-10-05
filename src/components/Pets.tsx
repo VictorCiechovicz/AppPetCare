@@ -1,3 +1,4 @@
+import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 import {
   Box,
   Circle,
@@ -9,10 +10,11 @@ import {
   IPressableProps,
   Image
 } from 'native-base'
-import { color } from 'native-base/lib/typescript/theme/styled-system'
+import { PetsFirestoreDTO } from '../DTOs/PetsDTO'
+
 import { MapPin } from 'phosphor-react-native'
 
-export type PetsProps = {
+export type PetsProps = PetsFirestoreDTO & {
   id: string
   nome: string
   name_insensitive: string
@@ -23,6 +25,10 @@ export type PetsProps = {
   when: string
   photo_url: string
   status: 'adotado' | 'naoadotado'
+  nomeUser:string;
+  imagemUser:undefined;
+  descricao:string;
+ 
 }
 
 type Props = IPressableProps & {

@@ -33,6 +33,8 @@ export function Register() {
   const [cidade, setCidade] = useState('')
   const [estado, setEstado] = useState('')
   const [userUId, setUserUId] = useState('')
+  const [nomeUser,setNomeUser]=useState('')
+  const [imagemUser,setImagemUser]=useState('')
 
   const navigation = useNavigation()
   const { colors } = useTheme()
@@ -42,8 +44,13 @@ export function Register() {
   const user = auth().currentUser
   user.providerData.forEach(userInfo => {
     setUserUId(userInfo.uid)
+    setNomeUser(userInfo.displayName)
+    setImagemUser(userInfo.photoURL)
+    
   })
 }, [])
+
+
   //função chama que pede a autorização do usuario para acessar biblioteca de fotos do dispositivo e depois puxa a imagem e armazana a uri.
   async function handlePickerImage() {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
@@ -87,7 +94,10 @@ export function Register() {
         photo_url,
         photo_path: reference.fullPath,
         created_at: firestore.FieldValue.serverTimestamp(),
-        userUId
+        userUId,
+        nomeUser,
+        imagemUser
+
       })
       .then(() => {
         Alert.alert('Cadastro', 'Animal cadastrado com sucesso!')

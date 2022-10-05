@@ -40,8 +40,6 @@ export function Home() {
 
   const navigation = useNavigation()
 
-
-
   function handleOpenDetails(petsId: string) {
     navigation.navigate('details', { petsId })
   }
@@ -55,48 +53,46 @@ export function Home() {
       })
   }
 
- useEffect(() => {
-   setIsLoading(true)
-//
-   const subscribe = firestore()
-     .collection('pets')
-     .where('status', '==', 'naoadotado')
-     .onSnapshot(snapshot => {
-       const data = snapshot.docs.map(doc => {
-         const {
-           nome,
-           name_insensitive,
-           raca,
-           descricao,
-           idade,
-           cidade,
-           estado,
-           photo_url,
-           status,
-           created_at
-         } = doc.data()
+  useEffect(() => {
+    setIsLoading(true)
 
-      return {
-        id: doc.id,
-        nome,
-        name_insensitive,
-           raca,
-           idade,
-           cidade,
-           estado,
-           descricao,
-           photo_url,
-           status,
-           when: dateFormat(created_at)
-         }
-       })
-       setPets(data)
-       setIsLoading(false)
-     })
-   return subscribe
+    const subscribe = firestore()
+      .collection<PetsProps>('pets')
+      .where('status', '==', 'naoadotado')
+      .onSnapshot(snapshot => {
+        const data = snapshot.docs.map(doc => {
+          const {
+            nome,
+            name_insensitive,
+            raca,
+            descricao,
+            idade,
+            cidade,
+            estado,
+            photo_url,
+            status,
+            created_at
+          } = doc.data()
+
+          return {
+            id: doc.id,
+            nome,
+            name_insensitive,
+            raca,
+            idade,
+            cidade,
+            estado,
+            descricao,
+            photo_url,
+            status,
+            when: dateFormat(created_at)
+          }
+        })
+        setPets(data)
+        setIsLoading(false)
+      })
+    return subscribe
   }, [])
-
-
 
   return (
     <VStack flex={1} pb={6} bg="#ffffff6f">
@@ -123,19 +119,19 @@ export function Home() {
       </HStack>
 
       <Input
-      borderColor={colors.gray[300]}
+        borderColor={colors.gray[300]}
         onChangeText={setSearch}
         value={search}
         alignSelf="center"
         mx={3}
         placeholder="pesquisar..."
         InputLeftElement={
-          <TouchableOpacity >
+          <TouchableOpacity>
             <Icon as={<MagnifyingGlass color={colors.gray[300]} />} ml={4} />
           </TouchableOpacity>
         }
         InputRightElement={
-          <TouchableOpacity >
+          <TouchableOpacity>
             <Icon as={<X color={colors.gray[300]} />} mr={4} />
           </TouchableOpacity>
         }
@@ -154,7 +150,6 @@ export function Home() {
         ) : (
           <FlatList
             data={pets}
-         
             keyExtractor={item => item.id}
             renderItem={({ item }) => (
               <Pets data={item} onPress={() => handleOpenDetails(item.id)} />

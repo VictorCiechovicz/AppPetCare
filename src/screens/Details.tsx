@@ -12,7 +12,6 @@ import {
 } from 'native-base'
 
 import firestore from '@react-native-firebase/firestore'
-import auth from '@react-native-firebase/auth'
 
 import { PetsProps } from '../components/Pets'
 import { PetsFirestoreDTO } from '../DTOs/PetsDTO'
@@ -21,12 +20,12 @@ import { dateFormat } from '../utils/firestoreDateFormat'
 import { Loading } from '../components/Loading'
 import { CaretLeft, Heart } from 'phosphor-react-native'
 import { CardDetails } from '../components/CardDetails'
-
 import { Button } from '../components/Button'
+
+import ImagePerfil from '../../assets/ImagePerfil.png'
 
 type RouteParams = {
   petsId: string
-  userId: string
 }
 
 type PetsDatails = PetsProps & {
@@ -37,15 +36,11 @@ type PetsDatails = PetsProps & {
 export function Details() {
   const [isLoading, setIsLoading] = useState(true)
   const [pets, setPets] = useState<PetsDatails>({} as PetsDatails)
-  const [nome, setNome] = useState('')
-  const [imagem, setImagem] = useState('')
 
   const route = useRoute()
   const { petsId } = route.params as RouteParams
 
-  const { colors } = useTheme()
   const navigation = useNavigation()
-  const estaNaTela = useIsFocused()
 
   function handlePetsClosed() {
     firestore()
@@ -81,7 +76,9 @@ export function Details() {
           status,
           photo_url,
           created_at,
-          closed_at
+          closed_at,
+          nomeUser,
+          imagemUser
         } = doc.data()
         const closed = closed_at ? dateFormat(closed_at) : null
 
@@ -97,21 +94,14 @@ export function Details() {
           photo_url,
           status,
           when: dateFormat(created_at),
-          closed
+          closed,
+          nomeUser,
+          imagemUser
         })
 
         setIsLoading(false)
       })
   }, [])
-
-  useEffect(() => {
-    const user = auth().currentUser
-    user.providerData.forEach(userInfo => {
-      setNome(userInfo.displayName)
-      setImagem(userInfo.photoURL)
-    })
-    setIsLoading(false)
-  }, [estaNaTela])
 
   if (isLoading) {
     return <Loading />
@@ -153,9 +143,27 @@ export function Details() {
           idade={`${pets.idade} years old`}
           cidade={`${pets.cidade} - `}
           estado={pets.estado}
-          usuarionome={!nome ? 'Anonimo' : nome}
+          usuarionome={!pets.nomeUser ? 'Perfil Anônimo' : pets.nomeUser}
           usuarioimagem={
-            !imagem ? 'https://assets.rockway.fi/teacher/63-md.png' : imagem
+            !pets.imagemUser ? (
+              <Image
+                shadow={2}
+                borderRadius={20}
+                w={12}
+                h={12}
+                source={ImagePerfil}
+                alt="profile"
+              />
+            ) : (
+              <Image
+                shadow={2}
+                borderRadius={20}
+                w={12}
+                h={12}
+                source={{ uri: pets.imagemUser }}
+                alt="profile"
+              />
+            )
           }
           footer={`Anunciado: ${pets.when}`}
         />

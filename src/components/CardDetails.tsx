@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { IconProps, MapPin } from 'phosphor-react-native'
-import { VStack, HStack, Text, Box, useTheme,Image } from 'native-base'
+import { VStack, HStack, Text, Box, useTheme, Image } from 'native-base'
 
 type Props = {
   title: string
@@ -10,8 +10,8 @@ type Props = {
   cidade?: string
   estado?: string
   photo_url?: string
-  usuarionome?:string
-  usuarioimagem?:string
+  usuarionome?: string
+  usuarioimagem?: any
   footer?: string
 
   children?: ReactNode
@@ -35,7 +35,7 @@ export function CardDetails({
     <VStack
       bg="white"
       w={350}
-      h={220}
+      h={235}
       p={5}
       mt={-20}
       mb={5}
@@ -71,16 +71,22 @@ export function CardDetails({
           <Text color="gray.300" fontSize="sm">
             {estado}
           </Text>
-          
         </HStack>
         <HStack alignItems="center" mt={5}>
-            <Image shadow={2} borderRadius={10} w={10} h={10} source={{uri:usuarioimagem}} alt="profile"/>
-            <Text ml={5} color="gray.300" fontSize="sm" textTransform="capitalize">{usuarionome}</Text>
-          </HStack>
+          {usuarioimagem}
+          <Text
+            ml={2}
+            color="gray.300"
+            fontSize="sm"
+            textTransform="capitalize"
+          >
+            {usuarionome}
+          </Text>
+        </HStack>
       </VStack>
 
       {!!footer && (
-        <Box borderTopWidth={1} borderTopColor="gray.400" mt={1}>
+        <Box borderTopWidth={1} borderTopColor="gray.400" mt={2}>
           <Text mt={1} color="gray.300" fontSize="sm" textAlign="center">
             {footer}
           </Text>
