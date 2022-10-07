@@ -22,12 +22,13 @@ export type PetsProps = PetsFirestoreDTO & {
   idade: string
   cidade: string
   estado: string
+  descricao:string;
   when: string
   photo_url: string
   status: 'adotado' | 'naoadotado'
   nomeUser:string;
   imagemUser:undefined;
-  descricao:string;
+  
  
 }
 

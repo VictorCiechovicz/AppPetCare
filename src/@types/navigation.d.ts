@@ -7,6 +7,7 @@ export declare global{
       singin:undefined;
       perfilEdit:{userId:string}
       details:{petsId:string}
+      forgotPassword:undefined;
     }
   }
 }

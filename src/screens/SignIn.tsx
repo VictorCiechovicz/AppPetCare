@@ -1,8 +1,12 @@
 import { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Envelope, Key } from 'phosphor-react-native'
-import { Alert, TouchableOpacity } from 'react-native'
-import { LinearGradient } from 'expo-linear-gradient'
+import {
+  Alert,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform
+} from 'react-native'
 
 import { VStack, Heading, Icon, useTheme, Text, Image } from 'native-base'
 
@@ -24,6 +28,9 @@ export function SignIn() {
 
   function handleNewUser() {
     navigation.navigate('cadastro')
+  }
+  function forgotPassword() {
+    navigation.navigate('forgotPassword')
   }
 
   function handleSignIn() {
@@ -54,32 +61,9 @@ export function SignIn() {
       })
   }
 
-  async function forgotPassword() {
-    if (!email) {
-      return Alert.alert('Redefinir Senha', 'Informe o e-mail.');
-    }
-
-    auth()
-      .sendPasswordResetEmail(email)
-      .then(() =>
-        Alert.alert(
-          'Redefinir Senha',
-          'Enviamos um link no seu E-mail para você redefinir sua senha.',
-        ),
-      )
-      .catch(() =>
-        Alert.alert(
-          'Redefinir Senha',
-          'Não foi possível enviar o e-mail para redefinição da senha.',
-        ),
-      );
-  }
-
- 
-
   return (
     <VStack flex={1} alignItems="center" bg={colors.white[100]} px={8} pt={24}>
-      <Image source={Logo} alt="logo petcare" w="406" h="258"  />
+      <Image source={Logo} alt="logo petcare" w="406" h="258" />
       <Heading color={colors.secondary[700]} fontSize="64" mt={-12} mb={18}>
         PetCare
       </Heading>
@@ -99,7 +83,10 @@ export function SignIn() {
         secureTextEntry
         onChangeText={setPassword}
       />
-      <TouchableOpacity onPress={forgotPassword} style={{ marginBottom: 26,alignSelf:'flex-end' }}>
+      <TouchableOpacity
+        onPress={forgotPassword}
+        style={{ marginBottom: 26, alignSelf: 'flex-end' }}
+      >
         <Text color="black" fontSize="16">
           Esqueceu a senha?
         </Text>
@@ -112,7 +99,7 @@ export function SignIn() {
         isLoading={isLoading}
       />
       <VStack alignItems="flex-end">
-        <TouchableOpacity onPress={handleNewUser} >
+        <TouchableOpacity onPress={handleNewUser}>
           <Text color="black" fontSize="14">
             Não possui uma conta?{' '}
             <Text color={colors.primary[700]}> Registre-se.</Text>

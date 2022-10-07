@@ -106,8 +106,6 @@ export function PerfilEdit() {
       })
   }
 
-
-  
   return (
     <VStack flex={1} pb={6} bg="white">
       <HStack

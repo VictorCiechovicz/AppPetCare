@@ -12,6 +12,7 @@ export function PerfilRouts() {
     <Navigator screenOptions={{ headerShown: false }}>
       <Screen name="perfil" component={Perfil} />
         <Screen name="perfilEdit" component={PerfilEdit} />
+        
     </Navigator>
   )
 }
