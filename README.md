@@ -1,3 +1,4 @@
+![developed by Victor Ciechovicz (6)](https://user-images.githubusercontent.com/106246945/195260540-7233d5db-a953-4ef3-87a4-968045077539.png)
 
 # ****💻 AppPetCare****
 
