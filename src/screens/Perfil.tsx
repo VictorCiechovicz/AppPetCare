@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Alert, TouchableOpacity } from 'react-native'
 import {
   HStack,
@@ -9,7 +9,11 @@ import {
   FlatList,
   Circle
 } from 'native-base'
-import { useNavigation, useIsFocused } from '@react-navigation/native'
+import {
+  useNavigation,
+  useIsFocused,
+  useFocusEffect
+} from '@react-navigation/native'
 
 import { Gear, Dog } from 'phosphor-react-native'
 import ImagePerfil from '../../assets/ImagePerfil.png'
@@ -37,20 +41,23 @@ export function Perfil() {
   }
 
   useEffect(() => {
+    setIsLoading(true)
     const user = auth().currentUser
     user.providerData.forEach(userInfo => {
       setNome(userInfo.displayName)
       setImagem(userInfo.photoURL)
       setUserIdLog(userInfo.uid)
+    
     })
-    setIsLoading(false)
+   console.log(userIdLog)
   }, [estaNaTela])
 
   useEffect(() => {
-    setIsLoading(true)
+    
 
     const subscribe = firestore()
       .collection<PetsProps>('pets')
+      .where('userUId', '==', userIdLog)
       .onSnapshot(snapshot => {
         const data = snapshot.docs.map(doc => {
           const {
@@ -167,11 +174,11 @@ export function Perfil() {
             ) : (
               <FlatList
                 data={pets}
-                keyExtractor={item => item.userUId}
+                keyExtractor={item => item.id}
                 renderItem={({ item }) => (
                   <Pets
                     data={item}
-                    onPress={() => handleOpenDetails(item.userUId)}
+                    onPress={() => handleOpenDetails(item.id)}
                   />
                 )}
                 showsVerticalScrollIndicator={false}

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { VStack, Heading, Icon, useTheme, Text, HStack } from 'native-base'
+import { VStack, Icon, useTheme, Text, HStack } from 'native-base'
 import { Envelope, X } from 'phosphor-react-native'
 
 import auth from '@react-native-firebase/auth'
@@ -9,6 +9,7 @@ import { Alert, TouchableOpacity } from 'react-native'
 
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
+import { Header } from '../components/Header'
 import { useNavigation } from '@react-navigation/native'
 
 export function ForgotPassword() {
@@ -43,24 +44,20 @@ export function ForgotPassword() {
   }
 
   return (
-    <VStack flex={1} alignItems="center" bg="white" px={8} pt={20}>
-      <Heading
-        alignSelf="space-between"
+    <VStack flex={1} alignItems="center" bg="white" px={6} pt={5}>
+      <HStack   
         justifyContent="center"
-        color={colors.primary[700]}
-        fontSize="20"
-        mb={160}
-        textTransform="uppercase"
-      >
-        <HStack>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <X color="black" size={20} />
-          </TouchableOpacity>
-        </HStack>
-      </Heading>
+        alignItems="center"
+        mb={130}
+        >
+        <Header title="Recuperar Senha" />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <X color="black" size={20} />
+        </TouchableOpacity>
+      </HStack>
 
       <Input
-        mb={30}
+        mb={60}
         placeholder="E-mail"
         InputLeftElement={
           <Icon as={<Envelope color={colors.gray[300]} />} ml={4} />
