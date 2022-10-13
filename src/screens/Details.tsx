@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Alert, ImageBackground } from 'react-native'
+import { Alert, ImageBackground, TouchableOpacity } from 'react-native'
 import { useNavigation, useRoute, useIsFocused } from '@react-navigation/native'
 import {
   HStack,
   VStack,
-  useTheme,
   IconButton,
   Image,
   ScrollView,
@@ -18,7 +17,7 @@ import { PetsFirestoreDTO } from '../DTOs/PetsDTO'
 
 import { dateFormat } from '../utils/firestoreDateFormat'
 import { Loading } from '../components/Loading'
-import { CaretLeft, Heart } from 'phosphor-react-native'
+import { CaretLeft, Heart, Smiley } from 'phosphor-react-native'
 import { CardDetails } from '../components/CardDetails'
 import { Button } from '../components/Button'
 
@@ -36,6 +35,7 @@ type PetsDatails = PetsProps & {
 export function Details() {
   const [isLoading, setIsLoading] = useState(true)
   const [pets, setPets] = useState<PetsDatails>({} as PetsDatails)
+  const [favorito, setFavorito] = useState(false)
 
   const route = useRoute()
   const { petsId } = route.params as RouteParams
@@ -78,7 +78,8 @@ export function Details() {
           created_at,
           closed_at,
           nomeUser,
-          imagemUser
+          imagemUser,
+          userUId
         } = doc.data()
         const closed = closed_at ? dateFormat(closed_at) : null
 
@@ -91,12 +92,13 @@ export function Details() {
           cidade,
           estado,
           descricao,
-          photo_url,
           status,
+          photo_url,
           when: dateFormat(created_at),
           closed,
           nomeUser,
-          imagemUser
+          imagemUser,
+          userUId
         })
 
         setIsLoading(false)
@@ -105,6 +107,14 @@ export function Details() {
 
   if (isLoading) {
     return <Loading />
+  }
+
+  function handlePetFavorito() {
+    if (!favorito) {
+      setFavorito(true)
+    } else {
+      setFavorito(false)
+    }
   }
 
   function handleGoBack() {
@@ -132,15 +142,29 @@ export function Details() {
             <IconButton
               mt={10}
               backgroundColor="transparent"
-              icon={<Heart color="white" size={40} />}
+              icon={
+                <TouchableOpacity onPress={handlePetFavorito}>
+                  <Heart color={favorito ? 'red' : 'white'} size={40} />
+                </TouchableOpacity>
+              }
             />
           </HStack>
         </ImageBackground>
 
         <CardDetails
           title={pets.nome}
+          statusanimal={
+            pets.status === 'adotado' ? (
+              <>
+                <Smiley color="#9CFF2E" size={40} />
+                <Text color="#9CFF2E">Animal Adotado</Text>
+              </>
+            ) : (
+              <></>
+            )
+          }
           raca={pets.raca}
-          idade={`${pets.idade} years old`}
+          idade={`${pets.idade} anos`}
           cidade={`${pets.cidade} - `}
           estado={pets.estado}
           usuarionome={!pets.nomeUser ? 'Perfil Anônimo' : pets.nomeUser}

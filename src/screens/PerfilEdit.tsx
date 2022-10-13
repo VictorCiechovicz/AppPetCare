@@ -21,7 +21,7 @@ import storage from '@react-native-firebase/storage'
 import auth from '@react-native-firebase/auth'
 
 import * as ImagePicker from 'expo-image-picker'
-import { Check, X } from 'phosphor-react-native'
+import {  X } from 'phosphor-react-native'
 import { Button } from '../components/Button'
 
 type RouteParams = {
@@ -78,6 +78,7 @@ export function PerfilEdit() {
     setIsLoading(true)
 
     const fileName = new Date().getTime()
+    
     //const salva na storage na pasta de pizzas que foi criada la
     const reference = storage().ref(`/usersImage/${fileName}.png`)
 

@@ -1,10 +1,9 @@
 import { ReactNode } from 'react'
-import { IconProps, MapPin } from 'phosphor-react-native'
+import { Smiley, MapPin } from 'phosphor-react-native'
 import { VStack, HStack, Text, Box, useTheme, Image } from 'native-base'
 
 type Props = {
   title: string
-  nome?: string
   raca?: string
   idade?: string
   cidade?: string
@@ -13,29 +12,29 @@ type Props = {
   usuarionome?: string
   usuarioimagem?: any
   footer?: string
+  statusanimal:any
 
-  children?: ReactNode
 }
 
 export function CardDetails({
   title,
-  nome,
   raca,
   idade,
   cidade,
   estado,
   usuarionome,
   usuarioimagem,
+  statusanimal,
   footer = null,
 
-  children
+  
 }: Props) {
   const { colors } = useTheme()
   return (
     <VStack
       bg="white"
       w={350}
-      h={235}
+      h={260}
       p={5}
       mt={-20}
       mb={5}
@@ -43,7 +42,7 @@ export function CardDetails({
       borderRadius={30}
       shadow={2}
     >
-      <HStack alignItems="center" mb={1}>
+      <HStack alignItems="center" justifyContent="space-between" mb={2}>
         <Text
           color="secondary.700"
           fontWeight="bold"
@@ -52,6 +51,11 @@ export function CardDetails({
         >
           {title}
         </Text>
+       
+        <VStack alignItems="center">
+        {statusanimal}
+      
+        </VStack>
       </HStack>
       <VStack>
         <HStack alignItems="center" justifyContent="space-between" mb={2}>

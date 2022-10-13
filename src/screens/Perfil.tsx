@@ -9,11 +9,7 @@ import {
   FlatList,
   Circle
 } from 'native-base'
-import {
-  useNavigation,
-  useIsFocused,
-  useFocusEffect
-} from '@react-navigation/native'
+import { useNavigation, useIsFocused } from '@react-navigation/native'
 
 import { Gear, Dog } from 'phosphor-react-native'
 import ImagePerfil from '../../assets/ImagePerfil.png'
@@ -65,7 +61,9 @@ export function Perfil() {
             photo_url,
             status,
             created_at,
-            userUId
+            userUId,
+            nomeUser,
+            imagemUser
           } = doc.data()
 
           return {
@@ -73,13 +71,15 @@ export function Perfil() {
             nome,
             name_insensitive,
             raca,
+            descricao,
             idade,
             cidade,
             estado,
-            descricao,
             photo_url,
             status,
             userUId,
+            nomeUser,
+            imagemUser,
             when: dateFormat(created_at)
           }
         })

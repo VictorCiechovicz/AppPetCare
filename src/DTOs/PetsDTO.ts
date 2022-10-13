@@ -15,5 +15,6 @@ export type PetsFirestoreDTO={
   nomeUser:string;
    imagemUser:undefined;
    userUId:any;
+   
 
 }
