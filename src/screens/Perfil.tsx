@@ -47,13 +47,7 @@ export function Perfil() {
       setNome(userInfo.displayName)
       setImagem(userInfo.photoURL)
       setUserIdLog(userInfo.uid)
-    
     })
-   console.log(userIdLog)
-  }, [estaNaTela])
-
-  useEffect(() => {
-    
 
     const subscribe = firestore()
       .collection<PetsProps>('pets')

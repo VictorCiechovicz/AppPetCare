@@ -4,8 +4,7 @@ import { Envelope, Key } from 'phosphor-react-native'
 import {
   Alert,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform
+
 } from 'react-native'
 
 import { VStack, Heading, Icon, useTheme, Text, Image } from 'native-base'
@@ -62,7 +61,7 @@ export function SignIn() {
   }
 
   return (
-    <VStack flex={1} alignItems="center" bg={colors.white[100]} px={8} pt={24}>
+    <VStack flex={1} alignItems="center" bg="white" px={8} pt={24}>
       <Image source={Logo} alt="logo petcare" w="406" h="258" />
       <Heading color={colors.secondary[700]} fontSize="64" mt={-12} mb={18}>
         PetCare
