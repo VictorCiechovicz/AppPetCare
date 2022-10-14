@@ -33,9 +33,7 @@ export const THEME = extendTheme({
     },
     white: '#FFFFFF',
 
-    gradiente:{
-     100: ['#00B4DB', '#0083B0']
-    } 
+  
   },
   fonts: {
     heading: 'Roboto_700Bold',

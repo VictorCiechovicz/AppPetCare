@@ -4,7 +4,7 @@ import { Envelope, Key } from 'phosphor-react-native'
 import {
   Alert,
   TouchableOpacity,
-
+  KeyboardAvoidingView
 } from 'react-native'
 
 import { VStack, Heading, Icon, useTheme, Text, Image } from 'native-base'
@@ -61,12 +61,14 @@ export function SignIn() {
   }
 
   return (
-    <VStack flex={1} alignItems="center" bg="white" px={8} pt={24}>
-      <Image source={Logo} alt="logo petcare" w="406" h="258" />
-      <Heading color={colors.secondary[700]} fontSize="64" mt={-12} mb={18}>
+
+    
+    <VStack flex={1} alignItems="center" bg="white" px={8} pt={20}>
+      <Image source={Logo} alt="logo petcare" w="250" h="150" />
+      <Heading color={colors.secondary[700]} fontSize="50" mb={5} >
         PetCare
       </Heading>
-
+     
       <Input
         mb={22}
         placeholder="E-mail"
@@ -90,6 +92,7 @@ export function SignIn() {
           Esqueceu a senha?
         </Text>
       </TouchableOpacity>
+     
       <Button
         title="LogIn"
         w="full"
@@ -97,6 +100,9 @@ export function SignIn() {
         onPress={handleSignIn}
         isLoading={isLoading}
       />
+
+
+      
       <VStack alignItems="flex-end">
         <TouchableOpacity onPress={handleNewUser}>
           <Text color="black" fontSize="14">
@@ -105,6 +111,8 @@ export function SignIn() {
           </Text>
         </TouchableOpacity>
       </VStack>
+
     </VStack>
+   
   )
 }
