@@ -84,14 +84,11 @@ export function Perfil() {
           }
         })
         setPets(data)
+
         setIsLoading(false)
       })
     return subscribe
   }, [estaNaTela])
-
-  if (isLoading) {
-    return <Loading />
-  }
 
   return (
     <VStack flex={1} pb={6} bg="white">
@@ -145,13 +142,7 @@ export function Perfil() {
         )}
       </VStack>
       <VStack flex={1} px={2} mt={50}>
-        <VStack
-          alignItems="flex-start"
-          alignSelf="flex-start"
-          ml={1}
-          mr={5}
-          mb={5}
-        >
+        <VStack alignItems="flex-start" alignSelf="flex-start" ml={1} mb={5}>
           <Text
             color="secondary.700"
             fontWeight="bold"
@@ -162,7 +153,7 @@ export function Perfil() {
             Meus Animais
           </Text>
 
-          <VStack w={400} alignItems="flex-start">
+          <VStack w={370} mr={20}>
             {isLoading ? (
               <Loading />
             ) : (
@@ -179,11 +170,11 @@ export function Perfil() {
                 contentContainerStyle={{ paddingBottom: 100 }}
                 ListEmptyComponent={() => (
                   <Circle>
-                    <Dog color={colors.gray[300]} size={50} />
+                    <Dog color={colors.gray[300]} size={40} />
                     <Text
                       color="gray.300"
-                      fontSize="xl"
-                      mt={6}
+                      fontSize="md"
+                      mt={3}
                       textAlign="center"
                     >
                       Não possui nenhum animal cadastrado. {'\n'}

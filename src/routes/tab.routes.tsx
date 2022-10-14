@@ -2,10 +2,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { House, PawPrint, User } from 'phosphor-react-native'
 import { Perfil } from '../screens/Perfil'
 
-
 import { DetailsRoute } from './details.routes'
 import { Register } from '../screens/Register'
-import {PerfilRouts} from './stack3.routes'
+import { PerfilRouts } from './stack3.routes'
 const { Navigator, Screen } = createBottomTabNavigator()
 
 export function TabRouts() {
@@ -25,8 +24,7 @@ export function TabRouts() {
         },
         tabBarActiveTintColor: '#0096FF',
         tabBarInactiveTintColor: '#929294',
-        tabBarHideOnKeyboard: true,
- 
+        tabBarHideOnKeyboard: true
       }}
     >
       <Screen

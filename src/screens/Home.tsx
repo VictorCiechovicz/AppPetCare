@@ -15,7 +15,7 @@ import {
 import { dateFormat } from '../utils/firestoreDateFormat'
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
-import { useNavigation, useFocusEffect } from '@react-navigation/native'
+import { useNavigation, useIsFocused } from '@react-navigation/native'
 
 import {
   SignOut,
@@ -39,6 +39,7 @@ export function Home() {
   const { colors } = useTheme()
 
   const navigation = useNavigation()
+  const estaNaTela = useIsFocused()
 
   function handleOpenDetails(petsId: string) {
     navigation.navigate('details', { petsId })
@@ -71,7 +72,10 @@ export function Home() {
             estado,
             photo_url,
             status,
-            created_at
+            created_at,
+            nomeUser,
+            imagemUser,
+            userUId
           } = doc.data()
 
           return {
@@ -85,6 +89,9 @@ export function Home() {
             descricao,
             photo_url,
             status,
+            nomeUser,
+            imagemUser,
+            userUId,
             when: dateFormat(created_at)
           }
         })
@@ -92,7 +99,7 @@ export function Home() {
         setIsLoading(false)
       })
     return subscribe
-  }, [])
+  }, [estaNaTela])
 
   return (
     <VStack flex={1} pb={6} bg="#ffffff6f">

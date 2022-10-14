@@ -51,7 +51,7 @@ export function NewUser() {
         color={colors.primary[700]}
         fontSize="32"
         mt={15}
-        mb={160}
+        mb={100}
         textTransform="uppercase"
       >
         Cadastro
@@ -66,7 +66,7 @@ export function NewUser() {
         onChangeText={setEmail}
       />
       <Input
-        mb={100}
+        mb={30}
         placeholder="Senha"
         InputLeftElement={<Icon as={<Key color={colors.gray[300]} />} ml={4} />}
         secureTextEntry
