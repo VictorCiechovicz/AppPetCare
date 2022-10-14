@@ -101,6 +101,9 @@ export function Home() {
     return subscribe
   }, [estaNaTela])
 
+
+
+  
   return (
     <VStack flex={1} pb={6} bg="#ffffff6f">
       <HStack

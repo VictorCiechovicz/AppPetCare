@@ -38,6 +38,7 @@ export function Perfil() {
 
   useEffect(() => {
     setIsLoading(true)
+
     const user = auth().currentUser
     user.providerData.forEach(userInfo => {
       setNome(userInfo.displayName)
