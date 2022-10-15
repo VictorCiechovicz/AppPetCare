@@ -36,15 +36,18 @@ export function Perfil() {
     navigation.navigate('details', { petsId })
   }
 
+  
   useEffect(() => {
-    setIsLoading(true)
-
     const user = auth().currentUser
     user.providerData.forEach(userInfo => {
       setNome(userInfo.displayName)
       setImagem(userInfo.photoURL)
       setUserIdLog(userInfo.uid)
     })
+  }, [estaNaTela]) 
+
+  useEffect( () => {
+    setIsLoading(true)
 
     const subscribe = firestore()
       .collection<PetsProps>('pets')
@@ -89,7 +92,11 @@ export function Perfil() {
         setIsLoading(false)
       })
     return subscribe
-  }, [estaNaTela])
+  }, [userIdLog])
+
+  if (isLoading) {
+    return <Loading />
+  }
 
   return (
     <VStack flex={1} pb={6} bg="white">

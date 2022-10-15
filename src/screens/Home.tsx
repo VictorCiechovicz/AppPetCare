@@ -102,7 +102,9 @@ export function Home() {
   }, [estaNaTela])
 
 
-
+  if (isLoading) {
+    return <Loading />
+  }
   
   return (
     <VStack flex={1} pb={6} bg="#ffffff6f">

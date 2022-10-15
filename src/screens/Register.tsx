@@ -1,6 +1,6 @@
-import { useState,useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Alert, TouchableOpacity, Image } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useIsFocused } from '@react-navigation/native'
 import {
   VStack,
   HStack,
@@ -18,6 +18,7 @@ import auth from '@react-native-firebase/auth'
 import { Header } from '../components/Header'
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
+import { Loading } from '../components/Loading'
 
 import { Check } from 'phosphor-react-native'
 
@@ -33,23 +34,22 @@ export function Register() {
   const [cidade, setCidade] = useState('')
   const [estado, setEstado] = useState('')
   const [userUId, setUserUId] = useState('')
-  const [nomeUser,setNomeUser]=useState('')
-  const [imagemUser,setImagemUser]=useState('')
+  const [nomeUser, setNomeUser] = useState('')
+  const [imagemUser, setImagemUser] = useState('')
 
   const navigation = useNavigation()
   const { colors } = useTheme()
+  const estaNaTela = useIsFocused()
 
- //pegar o uid do usuario logado
- useEffect(() => {
-  const user = auth().currentUser
-  user.providerData.forEach(userInfo => {
-    setUserUId(userInfo.uid)
-    setNomeUser(userInfo.displayName)
-    setImagemUser(userInfo.photoURL)
-    
-  })
-}, [])
-
+  //pegar o uid do usuario logado
+  useEffect(() => {
+    const user = auth().currentUser
+    user.providerData.forEach(userInfo => {
+      setUserUId(userInfo.uid)
+      setNomeUser(userInfo.displayName)
+      setImagemUser(userInfo.photoURL)
+    })
+  }, [])
 
   //função chama que pede a autorização do usuario para acessar biblioteca de fotos do dispositivo e depois puxa a imagem e armazana a uri.
   async function handlePickerImage() {
@@ -97,7 +97,6 @@ export function Register() {
         userUId,
         nomeUser,
         imagemUser
-
       })
       .then(() => {
         Alert.alert('Cadastro', 'Animal cadastrado com sucesso!')
@@ -109,6 +108,7 @@ export function Register() {
         return Alert.alert('Cadastro', 'Nao foi possivel cadastrar!')
       })
   }
+
 
   return (
     <VStack flex={1} bg="#ffffff6f">
@@ -158,17 +158,20 @@ export function Register() {
         </HStack>
 
         <VStack px={5} mt={5} mb={5}>
-          <Input placeholder="Nome do animal" onChangeText={setNome}  borderColor={colors.gray[300]} />
+          <Input
+            placeholder="Nome do animal"
+            onChangeText={setNome}
+            borderColor={colors.gray[300]}
+          />
 
-          <Box maxW="300" >
+          <Box maxW="300">
             <Select
-             borderColor={colors.gray[300]}
-            bg="#ffff"
+              borderColor={colors.gray[300]}
+              bg="#ffff"
               selectedValue={raca}
               w={354}
               h={14}
               borderWidth={1}
-             
               borderRadius={10}
               placeholder="Escolha a Raca"
               size="md"
@@ -184,11 +187,21 @@ export function Register() {
               <Select.Item label="Gato" value="Gato" />
             </Select>
           </Box>
-          <Input placeholder="Idade" mt={5} onChangeText={setIdade}  borderColor={colors.gray[300]} />
-          <Input placeholder="Cidade" mt={5} onChangeText={setCidade}  borderColor={colors.gray[300]} />
+          <Input
+            placeholder="Idade"
+            mt={5}
+            onChangeText={setIdade}
+            borderColor={colors.gray[300]}
+          />
+          <Input
+            placeholder="Cidade"
+            mt={5}
+            onChangeText={setCidade}
+            borderColor={colors.gray[300]}
+          />
           <Box maxW="300">
             <Select
-                  bg="#ffff"
+              bg="#ffff"
               selectedValue={estado}
               w={354}
               h={14}
@@ -236,7 +249,7 @@ export function Register() {
           </Box>
 
           <Input
-           borderColor={colors.gray[300]}
+            borderColor={colors.gray[300]}
             placeholder="Descricao do animal"
             mt={5}
             h={40}
