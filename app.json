@@ -13,7 +13,8 @@
     
     "android": {
       "package": "com.victorciechovicz.PetCare",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "versionCode": 1
     }
   }
 }
