@@ -4,7 +4,8 @@ import { Envelope, Key } from 'phosphor-react-native'
 import {
   Alert,
   TouchableOpacity,
-  KeyboardAvoidingView
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native'
 
 import { VStack, Heading, Icon, useTheme, Text, Image } from 'native-base'
@@ -61,58 +62,56 @@ export function SignIn() {
   }
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <VStack flex={1} alignItems="center" bg="white" px={8} pt={20}>
+        <Image source={Logo} alt="logo petcare" w="250" h="150" />
+        <Heading color={colors.secondary[700]} fontSize="50" mb={5}>
+          PetCare
+        </Heading>
 
-    
-    <VStack flex={1} alignItems="center" bg="white" px={8} pt={20}>
-      <Image source={Logo} alt="logo petcare" w="250" h="150" />
-      <Heading color={colors.secondary[700]} fontSize="50" mb={5} >
-        PetCare
-      </Heading>
-     
-      <Input
-        mb={22}
-        placeholder="E-mail"
-        InputLeftElement={
-          <Icon as={<Envelope color={colors.gray[300]} />} ml={4} />
-        }
-        onChangeText={setEmail}
-      />
-      <Input
-        mb={18}
-        placeholder="Senha"
-        InputLeftElement={<Icon as={<Key color={colors.gray[300]} />} ml={4} />}
-        secureTextEntry
-        onChangeText={setPassword}
-      />
-      <TouchableOpacity
-        onPress={forgotPassword}
-        style={{ marginBottom: 26, alignSelf: 'flex-end' }}
-      >
-        <Text color="black" fontSize="16">
-          Esqueceu a senha?
-        </Text>
-      </TouchableOpacity>
-     
-      <Button
-        title="LogIn"
-        w="full"
-        mb={27}
-        onPress={handleSignIn}
-        isLoading={isLoading}
-      />
-
-
-      
-      <VStack alignItems="flex-end">
-        <TouchableOpacity onPress={handleNewUser}>
-          <Text color="black" fontSize="14">
-            Não possui uma conta?{' '}
-            <Text color={colors.primary[700]}> Registre-se.</Text>
+        <Input
+          mb={22}
+          placeholder="E-mail"
+          InputLeftElement={
+            <Icon as={<Envelope color={colors.gray[300]} />} ml={4} />
+          }
+          onChangeText={setEmail}
+        />
+        <Input
+          mb={18}
+          placeholder="Senha"
+          InputLeftElement={
+            <Icon as={<Key color={colors.gray[300]} />} ml={4} />
+          }
+          secureTextEntry
+          onChangeText={setPassword}
+        />
+        <TouchableOpacity
+          onPress={forgotPassword}
+          style={{ marginBottom: 26, alignSelf: 'flex-end' }}
+        >
+          <Text color="black" fontSize="16">
+            Esqueceu a senha?
           </Text>
         </TouchableOpacity>
-      </VStack>
 
-    </VStack>
-   
+        <Button
+          title="LogIn"
+          w="full"
+          mb={27}
+          onPress={handleSignIn}
+          isLoading={isLoading}
+        />
+
+        <VStack alignItems="flex-end">
+          <TouchableOpacity onPress={handleNewUser}>
+            <Text color="black" fontSize="14">
+              Não possui uma conta?{' '}
+              <Text color={colors.primary[700]}> Registre-se.</Text>
+            </Text>
+          </TouchableOpacity>
+        </VStack>
+      </VStack>
+    </TouchableWithoutFeedback>
   )
 }
