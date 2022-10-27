@@ -1,8 +1,9 @@
 {
   "expo": {
     "name": "PetCare",
-    "slug": "PetCare",
+    "icon": "./assets/app-icon.png",
     "version": "1.0.0",
+    "slug": "PetCare",
     "assetBundlePatterns": [
       "**/*"
     ],
