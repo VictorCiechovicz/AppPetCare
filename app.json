@@ -11,6 +11,10 @@
       "@react-native-firebase/app"
       
     ],
+    "ios": {
+      "bundleIdentifier": "com.victorciechovicz.PetCare",
+      "buildNumber": "1.0.0"
+    },
     
     "android": {
       "package": "com.victorciechovicz.PetCare",
