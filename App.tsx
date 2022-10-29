@@ -1,3 +1,5 @@
+import React, { useEffect } from 'react'
+
 import { NativeBaseProvider, StatusBar } from 'native-base'
 import {
   useFonts,
