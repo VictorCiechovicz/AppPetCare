@@ -65,7 +65,7 @@ export function SignIn() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <VStack flex={1} alignItems="center" bg="white" px={8} pt={20}>
         <Image source={Logo} alt="logo petcare" w="250" h="150" />
-        <Heading color={colors.secondary[700]} fontSize="50" mb={5}>
+        <Heading color={colors.secondary[700]} fontSize="60" mb={5}>
           PetCare
         </Heading>
 
