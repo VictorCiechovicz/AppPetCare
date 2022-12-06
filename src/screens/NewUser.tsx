@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import { VStack, Heading, Icon, useTheme, Text } from 'native-base'
 import { Envelope, Key } from 'phosphor-react-native'
@@ -13,7 +13,6 @@ import { useNavigation } from '@react-navigation/native'
 
 export function NewUser() {
   const [isLoading, setIsLoading] = useState(false)
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
